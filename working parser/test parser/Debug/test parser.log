@@ -1,0 +1,8 @@
+﻿  tinyxml2.cpp
+  Source.cpp
+c:\users\taygs\source\repos\test parser\test parser\source.cpp(106): warning C4018: '<': signed/unsigned mismatch
+c:\users\taygs\source\repos\test parser\test parser\source.cpp(138): warning C4018: '<': signed/unsigned mismatch
+c:\users\taygs\source\repos\test parser\test parser\source.cpp(166): warning C4018: '<': signed/unsigned mismatch
+c:\users\taygs\source\repos\test parser\test parser\source.cpp(88): warning C4102: 'loop': unreferenced label
+  Generating Code...
+  test parser.vcxproj -> C:\Users\taygs\source\repos\test parser\Debug\test parser.exe

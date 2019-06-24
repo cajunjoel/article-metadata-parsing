@@ -85,9 +85,9 @@ void testFile() {
 void doWork() {
 
 	//iterates through rest of parent nodes
-loop:
+//loop:
 
-	for (XMLNode* parent = root->FirstChild(); parent != NULL; parent = parent->NextSiblingElement("sectionHeader"))
+	for (XMLNode* parent = root->FirstChild(); parent != NULL; parent = parent->NextSibling())
 	{
 
 		if (!(parent->NoChildren()) ) //if have children
@@ -96,12 +96,32 @@ loop:
 			bool hasAuthor = false;
 			bool titleAuthor = false;
 
-			//if (parent->NextSiblingElement("sectionHeader")->Attribute( "genericHeader" , "abstract"))   //to get titles
+			if (parent->NextSiblingElement("sectionHeader"))//|| parent->NextSiblingElement("equation")  ||parent->NextSiblingElement("construct") || parent->NextSiblingElement("figure") || parent->NextSiblingElement("table")) //to get titles
 			{
 				string st;
 				string str = parent->NextSiblingElement("sectionHeader")->GetText();
+				/*string otherst;
+				string littlest;
 
+				if (parent->NextSibling()->Value() == "equation" || "construct" || "figure" || "table") {
 
+					for (int otherStart = 0; otherStart < str.length(); otherStart++)
+					{
+						if (str[otherStart] == 'B' && str[otherStart + 1] == 'y')
+						{
+							littlest = otherst.substr(0, otherStart);
+							book.author[i] = otherst.substr(otherStart, str.size() - otherStart);
+							book.header[i] = littlest;
+
+							cout << "1 ---------------------------------------------- " << endl;
+							cout << "title: " << book.header[i] << endl;
+							cout << "author: " << book.author[i] << endl;
+
+						}
+
+					}
+				}
+				*/
 
 				for (int authStart = 0; authStart < str.length(); authStart++)
 				{
@@ -115,15 +135,15 @@ loop:
 						book.header[i] = st;
 						book.pageID[i] = parent->NextSiblingElement("sectionHeader")->Attribute("page_id");
 
-
+						cout << "2 ---------------------------------------------- " << endl;
 						cout << "title: " << book.header[i] << endl;
 						cout << "author: " << book.author[i] << endl;
 						cout << "page ID: " << book.pageID[i] << endl;
 					}
 
 
-					else
-						hasAuthor = false;
+					//else
+						//hasAuthor = false;
 
 
 				}
@@ -144,7 +164,7 @@ loop:
 							book.header[i] = str;
 
 
-
+							cout << "3 ---------------------------------------------- " << endl;
 							cout << "title: " << book.header[i] << endl;
 							cout << "author: " << book.author[i] << endl;
 							book.pageID[i] = parent->NextSiblingElement("sectionHeader")->Attribute("page_id");
@@ -172,8 +192,8 @@ loop:
 					book.issue[i] = info.substr(authChar, 5);
 
 					cout << endl;
-					cout << "Date: " << book.date[i] << endl;
-					cout << "Issue: " << book.issue[i] << endl;
+				//	cout << "Date: " << book.date[i] << endl;
+					//cout << "Issue: " << book.issue[i] << endl;
 
 				}
 
@@ -181,7 +201,7 @@ loop:
 				{
 
 					book.volume[i] = info.substr(authChar, 5);
-					cout << "Volume: " << book.volume << endl;
+					//cout << "Volume: " << book.volume << endl;
 				}
 
 				else
@@ -190,19 +210,19 @@ loop:
 
 				
 
-				if (hasAuthor == false)
+				/*if (hasAuthor == false)
 				{
 					parent = parent->NextSiblingElement("sectionHeader");
 
-					if (parent->NextSiblingElement("sectionHeader")->Attribute("genericHeader") == "PAGE")
-						goto Endloop;
+					// (parent->NextSiblingElement("sectionHeader")->Attribute("genericHeader") == "PAGE")
+						//goto Endloop;
 
 				}
-
+				*/
 				i++;
 			
 		}
 	}
-Endloop:
+//Endloop:
 	cout << " All of the metadata " << endl;
 }

@@ -12,6 +12,7 @@ using namespace std;
 void doWork();
 void testFile();
 
+
 int i = 0;
 
 XMLElement* root;
@@ -82,102 +83,95 @@ void testFile() {
 }
 
 
-void doWork() {
+void doWork(XMLNode* parent) {
 
 	//iterates through rest of parent nodes
-//loop:
 
-	for (XMLNode* parent = root->FirstChild(); parent != NULL; parent = parent->NextSibling())
+	for (parent = root->FirstChild(); parent != NULL; parent = parent->NextSibling())
 	{
 
-		if (!(parent->NoChildren()) ) //if have children
+
+		if (!(parent->NoChildren())) //if have children
 		{
 
 			bool hasAuthor = false;
 			bool titleAuthor = false;
 
-			if (parent->NextSiblingElement("sectionHeader"))//|| parent->NextSiblingElement("equation")  ||parent->NextSiblingElement("construct") || parent->NextSiblingElement("figure") || parent->NextSiblingElement("table")) //to get titles
+			string st;
+			
+			string temp;
+
+			//storing strings for checking
+			string str;
+
+			if (parent->NextSiblingElement("figure"))
+				str = parent->NextSiblingElement("figure")->GetText();
+
+			 if (parent->NextSiblingElement("construct"))
+				str = parent->NextSiblingElement("construct")->GetText();
+
+			 if (parent->NextSiblingElement("table"))
+				str = parent->NextSiblingElement("table")->GetText();
+
+			 if (parent->NextSiblingElement("equation"))
+				 str = parent->NextSiblingElement("equation")->GetText();
+
+
+			if (parent->NextSiblingElement("sectionHeader"))
+				str = parent->NextSiblingElement("sectionHeader")->GetText();
+
+		
+
+
+			for (int authStart = 0; authStart < str.length(); authStart++)
 			{
-				string st;
-				string str = parent->NextSiblingElement("sectionHeader")->GetText();
-				/*string otherst;
-				string littlest;
-
-				if (parent->NextSibling()->Value() == "equation" || "construct" || "figure" || "table") {
-
-					for (int otherStart = 0; otherStart < str.length(); otherStart++)
-					{
-						if (str[otherStart] == 'B' && str[otherStart + 1] == 'y')
-						{
-							littlest = otherst.substr(0, otherStart);
-							book.author[i] = otherst.substr(otherStart, str.size() - otherStart);
-							book.header[i] = littlest;
-
-							cout << "1 ---------------------------------------------- " << endl;
-							cout << "title: " << book.header[i] << endl;
-							cout << "author: " << book.author[i] << endl;
-
-						}
-
-					}
-				}
-				*/
-
-				for (int authStart = 0; authStart < str.length(); authStart++)
+				if (str[authStart] == 'B' && str[authStart + 1] == 'y')  //if an author is in the title
 				{
-					if (str[authStart] == 'B' && str[authStart + 1] == 'y')  //if an author is in the title
-					{
+					st = str.substr(0, authStart);
+					titleAuthor = true;
+					hasAuthor = true;
+					book.author[i] = str.substr(authStart, str.size() - authStart);
+					book.header[i] = st;
+					book.pageID[i] = parent->NextSiblingElement("sectionHeader")->Attribute("page_id");
 
-						st = str.substr(0, authStart);
-						titleAuthor = true;
+					cout << "1 ---------------------------------------------- " << endl;
+					cout << "title: " << book.header[i] << endl;
+					cout << "author: " << book.author[i] << endl;
+				//	cout << "page ID: " << book.pageID[i] << endl;
+				}
+
+			}
+		
+						
+			if (titleAuthor == false) {   //if author is in the body
+
+				string s;
+
+				s = parent->NextSiblingElement("bodyText")->GetText();
+
+
+				for (int authChar = 0; authChar < s.length(); authChar++)
+				{
+					if (s[authChar] == 'B' && (s[authChar + 1] == 'y'))
+					{
 						hasAuthor = true;
-						book.author[i] = str.substr(authStart, str.size() - authStart);
-						book.header[i] = st;
-						book.pageID[i] = parent->NextSiblingElement("sectionHeader")->Attribute("page_id");
+						book.author[i] = s.substr(authChar, 25);  //allows for 25 characters. how to determine end?
+						book.header[i] = str;
+
 
 						cout << "2 ---------------------------------------------- " << endl;
 						cout << "title: " << book.header[i] << endl;
 						cout << "author: " << book.author[i] << endl;
+						book.pageID[i] = parent->NextSiblingElement("sectionHeader")->Attribute("page_id");
+
 						cout << "page ID: " << book.pageID[i] << endl;
+
+
+						break;
 					}
 
-
-					//else
-						//hasAuthor = false;
-
-
 				}
-
-				if (titleAuthor == false) {   //if author is in the body
-
-					string s;
-
-					s = parent->NextSiblingElement("bodyText")->GetText();
-
-
-					for (int authChar = 0; authChar < s.length(); authChar++)
-					{
-						if (s[authChar] == 'B' && (s[authChar + 1] == 'y'))
-						{
-							hasAuthor = true;
-							book.author[i] = s.substr(authChar, 25);  //allows for 25 characters. how to determine end?
-							book.header[i] = str;
-
-
-							cout << "3 ---------------------------------------------- " << endl;
-							cout << "title: " << book.header[i] << endl;
-							cout << "author: " << book.author[i] << endl;
-							book.pageID[i] = parent->NextSiblingElement("sectionHeader")->Attribute("page_id");
-
-							cout << "page ID: " << book.pageID[i] << endl;
-						}
-					}
-
-					
-					
-					
-				}
-
+			}
 				string info;
 
 				info = parent->NextSiblingElement("bodyText")->GetText();
@@ -204,25 +198,12 @@ void doWork() {
 					//cout << "Volume: " << book.volume << endl;
 				}
 
-				else
-					hasAuthor = false;
-			}
-
 				
 
-				/*if (hasAuthor == false)
-				{
-					parent = parent->NextSiblingElement("sectionHeader");
-
-					// (parent->NextSiblingElement("sectionHeader")->Attribute("genericHeader") == "PAGE")
-						//goto Endloop;
-
-				}
-				*/
 				i++;
 			
 		}
 	}
-//Endloop:
+
 	cout << " All of the metadata " << endl;
 }

@@ -118,7 +118,7 @@
     <ClInclude Include="..\..\tinyxml2\tinyxml2.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\tinyxml2\tinyxml2.cpp" />
+    <ClCompile Include="..\tinyxml2.cpp" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

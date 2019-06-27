@@ -24,9 +24,8 @@ struct {
 	string volume[20];
 	string issue[50];
 
-	string pageID[200];
-
-
+	char *pageid;
+	
 } book;
 
 
@@ -94,9 +93,12 @@ void doWork() {
 		if (strcmp(child->Value(), "figure") == 0 || strcmp(child->Value(), "construct") == 0 || strcmp(child->Value(), "table") == 0 || strcmp(child->Value(), "equation") == 0 || strcmp(child->Value(), "sectionHeader") == 0)
 		{
 			string tempstr = child->ToElement()->GetText();
+			// string foo = child->ToElement()->Attribute("page_id");
+
+			//cout << "[= CHILD " << child->Value() << "=]" << endl;
 
 			string str = tempstr.substr(0, 75);
-			//cout << str << endl;
+			//cout << "[=" << str << "=]" << endl;
 
 			for (int authStart = 0; authStart < str.length(); authStart++)
 			{
@@ -104,14 +106,16 @@ void doWork() {
 				if (str[authStart] == 'B' && str[authStart + 1] == 'y')  //if an author is in the title
 				{
 
-					book.header[i] = str.substr(0, authStart);
-					book.author[i] = str.substr(authStart, str.size() - authStart);
-					book.pageID[i] = child->NextSiblingElement("sectionHeader")->Attribute("page_id");
-
 					cout << "1 ---------------------------------------------- " << endl;
-					cout << "title: " << book.header[i] << endl;
+					book.header[i] = str.substr(0, authStart);
+					cout << "header: " << book.header[i] << endl;
+					
+					book.author[i] = str.substr(authStart, str.size() - authStart);
 					cout << "author: " << book.author[i] << endl;
-					cout << "page ID: " << book.pageID[i] << endl;
+
+					const char* pageid = child->ToElement()->Attribute("page_id");
+					book.pageid[i] = pageid;
+					cout << "page ID: (" << pageid << ") Length: " << endl;
 
 					break;
 				}

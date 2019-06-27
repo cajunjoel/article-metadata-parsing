@@ -1,5 +1,4 @@
 #include"tinyxml2.h"
-#include"dirent.h"
 #include<string>
 #include<iostream>
 #include<algorithm>
@@ -83,101 +82,80 @@ void testFile() {
 }
 
 
-void doWork(XMLNode* parent) {
+void doWork() {
 
-	//iterates through rest of parent nodes
+	//iterates through rest of child nodes
 
-	for (parent = root->FirstChild(); parent != NULL; parent = parent->NextSibling())
+
+
+	for (XMLNode* child = root->FirstChild(); child != NULL; child = child->NextSibling())
 	{
 
-
-		if (!(parent->NoChildren())) //if have children
+		if (strcmp(child->Value(), "figure") == 0 || strcmp(child->Value(), "construct") == 0 || strcmp(child->Value(), "table") == 0 || strcmp(child->Value(), "equation") == 0 || strcmp(child->Value(), "sectionHeader") == 0)
 		{
+			string tempstr = child->ToElement()->GetText();
 
-			bool hasAuthor = false;
-			bool titleAuthor = false;
-
-			string st;
-			
-			string temp;
-
-			//storing strings for checking
-			string str;
-
-			if (parent->NextSiblingElement("figure"))
-				str = parent->NextSiblingElement("figure")->GetText();
-
-			 if (parent->NextSiblingElement("construct"))
-				str = parent->NextSiblingElement("construct")->GetText();
-
-			 if (parent->NextSiblingElement("table"))
-				str = parent->NextSiblingElement("table")->GetText();
-
-			 if (parent->NextSiblingElement("equation"))
-				 str = parent->NextSiblingElement("equation")->GetText();
-
-
-			if (parent->NextSiblingElement("sectionHeader"))
-				str = parent->NextSiblingElement("sectionHeader")->GetText();
-
-		
-
+			string str = tempstr.substr(0, 75);
+			//cout << str << endl;
 
 			for (int authStart = 0; authStart < str.length(); authStart++)
 			{
+
 				if (str[authStart] == 'B' && str[authStart + 1] == 'y')  //if an author is in the title
 				{
-					st = str.substr(0, authStart);
-					titleAuthor = true;
-					hasAuthor = true;
+
+					book.header[i] = str.substr(0, authStart);
 					book.author[i] = str.substr(authStart, str.size() - authStart);
-					book.header[i] = st;
-					book.pageID[i] = parent->NextSiblingElement("sectionHeader")->Attribute("page_id");
+					book.pageID[i] = child->NextSiblingElement("sectionHeader")->Attribute("page_id");
 
 					cout << "1 ---------------------------------------------- " << endl;
 					cout << "title: " << book.header[i] << endl;
 					cout << "author: " << book.author[i] << endl;
-				//	cout << "page ID: " << book.pageID[i] << endl;
+					cout << "page ID: " << book.pageID[i] << endl;
+
+					break;
 				}
 
 			}
-		
-						
-			if (titleAuthor == false) {   //if author is in the body
 
-				string s;
-
-				s = parent->NextSiblingElement("bodyText")->GetText();
+			// if author is in body
 
 
-				for (int authChar = 0; authChar < s.length(); authChar++)
+			/*
+			string temps = child->NextSiblingElement("bodyText")->GetText();
+
+			string s = temps.substr(0, 75);
+
+
+				for (int authChar = 0; authChar < s.length(); authChar++)  //if author is in the body
 				{
+
 					if (s[authChar] == 'B' && (s[authChar + 1] == 'y'))
 					{
-						hasAuthor = true;
 						book.author[i] = s.substr(authChar, 25);  //allows for 25 characters. how to determine end?
 						book.header[i] = str;
-
+						book.pageID[i] = child->NextSiblingElement("sectionHeader")->Attribute("page_id");
 
 						cout << "2 ---------------------------------------------- " << endl;
 						cout << "title: " << book.header[i] << endl;
 						cout << "author: " << book.author[i] << endl;
-						book.pageID[i] = parent->NextSiblingElement("sectionHeader")->Attribute("page_id");
-
 						cout << "page ID: " << book.pageID[i] << endl;
-
 
 						break;
 					}
-
 				}
-			}
-				string info;
 
-				info = parent->NextSiblingElement("bodyText")->GetText();
+		}*/
+		/*
+
+		else if (strcmp(child->Value(), "bodyText") == 0 || strcmp(child->Value(), "keyword") == 0)
+		{
+			string info;
+			info = child->ToElement()->GetText();
 
 
-				for (int authChar = 0; authChar < info.length(); authChar++)
+			for (int authChar = 0; authChar < info.length(); authChar++)
+			{
 				if (info[authChar] == 'N' && (info[authChar + 1] == 'O'))
 				{
 
@@ -186,8 +164,8 @@ void doWork(XMLNode* parent) {
 					book.issue[i] = info.substr(authChar, 5);
 
 					cout << endl;
-				//	cout << "Date: " << book.date[i] << endl;
-					//cout << "Issue: " << book.issue[i] << endl;
+					cout << "Date: " << book.date[i] << endl;
+					cout << "Issue: " << book.issue[i] << endl;
 
 				}
 
@@ -195,15 +173,18 @@ void doWork(XMLNode* parent) {
 				{
 
 					book.volume[i] = info.substr(authChar, 5);
-					//cout << "Volume: " << book.volume << endl;
+					cout << "Volume: " << book.volume << endl;
 				}
 
-				
-
-				i++;
-			
+			}
 		}
+				*/
+		}
+		i++;
 	}
-
-	cout << " All of the metadata " << endl;
 }
+
+
+
+
+	

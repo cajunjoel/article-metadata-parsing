@@ -9,7 +9,7 @@ using namespace std;
 
 
 void doWork();
-void testFile();
+void loadFile();
 
 
 int i = 0;
@@ -21,39 +21,25 @@ struct {
 	string author[200];
 	string header[200];
 	string date[50];
-	string volume[20];
+	string volume;
 	string issue[50];
 
-	string pageID[200];
-
+	string pageID[500];
+	
 
 } book;
 
 
 int main() {
 
-	XMLElement* root = 0;
-
-	testFile();
-
-	/*for (int u = 0; u < i; u++)
-	{
-
-		cout << "title: " << book.header[u] << endl;
-		cout << "author: " << book.author[u] << endl;
-		cout << "page ID: " << book.pageID[u] << endl;
-		cout << "Volume: " << book.volume[u] << endl;
-		cout << "Date: " << book.date[u] << endl;
-		cout << "Issue: " << book.issue[u] << endl;
-	}
-	*/
+	loadFile();
 
 	system("pause");
 	return 0;
 
 }
 
-void testFile() {
+void loadFile() {
 
 	XMLDocument doc;
 	XMLError loadOK = doc.LoadFile("aviculturalm118941895avic.xml");
@@ -87,26 +73,24 @@ void doWork() {
 	//iterates through rest of child nodes
 
 
-
 	for (XMLNode* child = root->FirstChild(); child != NULL; child = child->NextSibling())
 	{
 
 		if (strcmp(child->Value(), "figure") == 0 || strcmp(child->Value(), "construct") == 0 || strcmp(child->Value(), "table") == 0 || strcmp(child->Value(), "equation") == 0 || strcmp(child->Value(), "sectionHeader") == 0)
 		{
-			string tempstr = child->ToElement()->GetText();
-
+			string  tempstr = child->ToElement()->GetText();
 			string str = tempstr.substr(0, 75);
 			//cout << str << endl;
 
 			for (int authStart = 0; authStart < str.length(); authStart++)
 			{
 
-				if (str[authStart] == 'B' && str[authStart + 1] == 'y')  //if an author is in the title
+				if (str[authStart] == 'B' && (str[authStart + 1] == 'y' || str[authStart + 1] == 'v') && str[authStart + 2] == ' ' && child->NextSiblingElement("bodyText")) //if an author is in the title, author if next element is a body
 				{
 
 					book.header[i] = str.substr(0, authStart);
-					book.author[i] = str.substr(authStart, str.size() - authStart);
-					book.pageID[i] = child->NextSiblingElement("sectionHeader")->Attribute("page_id");
+					book.author[i] = str.substr(authStart - 1, str.size() - authStart);
+					book.pageID[i] = child->ToElement()->Attribute("page_id");    
 
 					cout << "1 ---------------------------------------------- " << endl;
 					cout << "title: " << book.header[i] << endl;
@@ -114,73 +98,81 @@ void doWork() {
 					cout << "page ID: " << book.pageID[i] << endl;
 
 					break;
+
+				}
+
+			}    // this works
+
+			// if author is in body
+			string temps;
+			string s;
+
+			if (child->NextSiblingElement("bodyText") != NULL)
+			{
+				temps = child->NextSiblingElement("bodyText")->GetText();
+				s = temps.substr(0, 75);
+
+			}
+			//cout << s << endl;
+
+			for (int authChar = 0; authChar < s.length(); authChar++)  //if author is in the body
+			{
+
+				if (s[authChar] == 'B' && (s[authChar + 1] == 'y'))
+				{
+					book.author[i] = s.substr(authChar, 25);  //allows for 25 characters. how to determine end?
+					book.header[i] = str;
+					book.pageID[i] = child->ToElement()->Attribute("page_id");    
+
+					cout << "2 ---------------------------------------------- " << endl;
+					cout << "title: " << book.header[i] << endl;
+					cout << "author: " << book.author[i] << endl;
+					cout << "page ID: " << book.pageID[i] << endl;
+					
+					break;
 				}
 
 			}
 
-			// if author is in body
+
+		}
 
 
-			/*
-			string temps = child->NextSiblingElement("bodyText")->GetText();
 
-			string s = temps.substr(0, 75);
-
-
-				for (int authChar = 0; authChar < s.length(); authChar++)  //if author is in the body
-				{
-
-					if (s[authChar] == 'B' && (s[authChar + 1] == 'y'))
-					{
-						book.author[i] = s.substr(authChar, 25);  //allows for 25 characters. how to determine end?
-						book.header[i] = str;
-						book.pageID[i] = child->NextSiblingElement("sectionHeader")->Attribute("page_id");
-
-						cout << "2 ---------------------------------------------- " << endl;
-						cout << "title: " << book.header[i] << endl;
-						cout << "author: " << book.author[i] << endl;
-						cout << "page ID: " << book.pageID[i] << endl;
-
-						break;
-					}
-				}
-
-		}*/
-		/*
-
-		else if (strcmp(child->Value(), "bodyText") == 0 || strcmp(child->Value(), "keyword") == 0)
+		else if (strcmp(child->Value(), "bodyText") == 0 || strcmp(child->Value(), "keyword") ==0 )
 		{
 			string info;
 			info = child->ToElement()->GetText();
-
+			//cout <<"child" << child->Value() << endl;
 
 			for (int authChar = 0; authChar < info.length(); authChar++)
 			{
-				if (info[authChar] == 'N' && (info[authChar + 1] == 'O'))
+				if ((info[authChar] == 'N' && info[authChar + 1] == 'o' && info[authChar + 2] == ' ' )||( info[authChar + 1] == 'N') && (info[authChar+1] == 'O' || info[authChar +2] == '.'))
 				{
 
 					book.date[i] = info.substr(8, 25);
 
 					book.issue[i] = info.substr(authChar, 5);
 
-					cout << endl;
+					cout << "------------------------------------------------ " << endl << endl;
 					cout << "Date: " << book.date[i] << endl;
 					cout << "Issue: " << book.issue[i] << endl;
 
 				}
 
-				else if (info[authChar] == 'V' && (info[authChar + 1] == 'O'))
+				if (info[authChar] == 'V' && (info[authChar + 1] == 'O') && (info[authChar +2] == 'L' || info[authChar+2] =='I'))
 				{
 
-					book.volume[i] = info.substr(authChar, 5);
+					book.volume = info.substr(authChar, 8);
 					cout << "Volume: " << book.volume << endl;
 				}
 
 			}
+
 		}
-				*/
-		}
+
 		i++;
+
 	}
 }
 

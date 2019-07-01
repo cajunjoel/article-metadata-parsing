@@ -1,7 +1,6 @@
-﻿  tinyxml2.cpp
-  Source.cpp
+﻿  Source.cpp
 c:\users\taygs\source\repos\cajunjoel\article-metadata-parsing\working parser\test parser\source.cpp(85): warning C4018: '<': signed/unsigned mismatch
-c:\users\taygs\source\repos\cajunjoel\article-metadata-parsing\working parser\test parser\source.cpp(118): warning C4018: '<': signed/unsigned mismatch
-c:\users\taygs\source\repos\cajunjoel\article-metadata-parsing\working parser\test parser\source.cpp(148): warning C4018: '<': signed/unsigned mismatch
-  Generating Code...
+c:\users\taygs\source\repos\cajunjoel\article-metadata-parsing\working parser\test parser\source.cpp(119): warning C4018: '<': signed/unsigned mismatch
+c:\users\taygs\source\repos\cajunjoel\article-metadata-parsing\working parser\test parser\source.cpp(150): warning C4018: '<': signed/unsigned mismatch
+c:\users\taygs\source\repos\cajunjoel\article-metadata-parsing\working parser\test parser\source.cpp(169): warning C4018: '<': signed/unsigned mismatch
   test parser.vcxproj -> C:\Users\taygs\source\repos\cajunjoel\article-metadata-parsing\working parser\Debug\test parser.exe

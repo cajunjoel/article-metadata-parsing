@@ -96,6 +96,7 @@ void doWork() {
 					cout << "title: " << book.header[i] << endl;
 					cout << "author: " << book.author[i] << endl;
 					cout << "page ID: " << book.pageID[i] << endl;
+					cout << endl;
 
 					break;
 
@@ -128,6 +129,8 @@ void doWork() {
 					cout << "title: " << book.header[i] << endl;
 					cout << "author: " << book.author[i] << endl;
 					cout << "page ID: " << book.pageID[i] << endl;
+					cout << endl;
+
 					
 					break;
 				}
@@ -139,31 +142,36 @@ void doWork() {
 
 
 
-		else if (strcmp(child->Value(), "bodyText") == 0 || strcmp(child->Value(), "keyword") ==0 )
+		 if (strcmp(child->Value(), "bodyText") == 0 || strcmp(child->Value(), "keyword") ==0 || strcmp(child->Value(), "construct") == 0)
 		{
-			string info;
-			info = child->ToElement()->GetText();
-			//cout <<"child" << child->Value() << endl;
+			string biginfo = child->ToElement()->GetText();
+			string info = biginfo.substr(0, 60);
 
 			for (int authChar = 0; authChar < info.length(); authChar++)
 			{
-				if ((info[authChar] == 'N' && info[authChar + 1] == 'o' && info[authChar + 2] == ' ' )||( info[authChar + 1] == 'N') && (info[authChar+1] == 'O' || info[authChar +2] == '.'))
+				if ((info[authChar] == 'N' && info[authChar + 1] == 'o' && (info[authChar + 2] == ' ' || info[authChar + 2] == '.')) || (info[authChar] == 'N') && (info[authChar + 1] == 'O' && info[authChar + 2] == '.'))
 				{
 
-					book.date[i] = info.substr(8, 25);
 
-					book.issue[i] = info.substr(authChar, 5);
+					book.date[i] = info.substr(authChar + 6, 18);
+
+					book.issue[i] = info.substr(authChar, 6);
 
 					cout << "------------------------------------------------ " << endl << endl;
 					cout << "Date: " << book.date[i] << endl;
 					cout << "Issue: " << book.issue[i] << endl;
 
+
 				}
 
-				if (info[authChar] == 'V' && (info[authChar + 1] == 'O') && (info[authChar +2] == 'L' || info[authChar+2] =='I'))
+			}
+
+			for(int authChar=0; authChar <biginfo.length(); authChar++)
+			{
+				if (biginfo[authChar] == 'V' && (biginfo[authChar + 1] == 'O') && (biginfo[authChar +2] == 'L' || biginfo[authChar+2] =='I'))
 				{
 
-					book.volume = info.substr(authChar, 8);
+					book.volume = biginfo.substr(authChar, 8);
 					cout << "Volume: " << book.volume << endl;
 				}
 

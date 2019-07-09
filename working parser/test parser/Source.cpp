@@ -13,6 +13,7 @@ void loadFile();
 
 
 int i = 0;
+int r = 0;
 
 XMLElement* root;
 
@@ -23,6 +24,7 @@ struct {
 	string date[50];
 	string volume;
 	string issue[50];
+	string pages[1000];
 
 	string pageID[500];
 	
@@ -76,11 +78,21 @@ void doWork() {
 	for (XMLNode* child = root->FirstChild(); child != NULL; child = child->NextSibling())
 	{
 
+		/*if (strcmp(child->Value(), "page") == 0)
+		{
+
+			cout << child->ToElement()->GetText() << endl;
+
+		}*/
+
+		bool isArticle = false;
+
 		if (strcmp(child->Value(), "figure") == 0 || strcmp(child->Value(), "construct") == 0 || strcmp(child->Value(), "table") == 0 || strcmp(child->Value(), "equation") == 0 || strcmp(child->Value(), "sectionHeader") == 0)
 		{
 			string  tempstr = child->ToElement()->GetText();
 			string str = tempstr.substr(0, 75);
 			//cout << str << endl;
+
 
 			for (int authStart = 0; authStart < str.length(); authStart++)
 			{
@@ -92,12 +104,15 @@ void doWork() {
 					book.author[i] = str.substr(authStart - 1, str.size() - authStart);
 					book.pageID[i] = child->ToElement()->Attribute("page_id");    
 
-					cout << "1 ---------------------------------------------- " << endl;
-					cout << "title: " << book.header[i] << endl;
-					cout << "author: " << book.author[i] << endl;
-					cout << "page ID: " << book.pageID[i] << endl;
-					cout << endl;
-
+					//cout << "1 ---------------------------------------------- " << endl;
+					//cout << "title: " << book.header[i] << endl;
+					//cout << "author: " << book.author[i] << endl;
+					//cout << "page ID: " << book.pageID[i] << endl;
+					////cout << "~~~~~~~~" << book.pages[i] << endl;
+					
+					//cout << endl;
+				
+	
 					break;
 
 				}
@@ -125,11 +140,12 @@ void doWork() {
 					book.header[i] = str;
 					book.pageID[i] = child->ToElement()->Attribute("page_id");    
 
-					cout << "2 ---------------------------------------------- " << endl;
-					cout << "title: " << book.header[i] << endl;
-					cout << "author: " << book.author[i] << endl;
-					cout << "page ID: " << book.pageID[i] << endl;
-					cout << endl;
+					////cout << "2 ---------------------------------------------- " << endl;
+					//cout << "title: " << book.header[i] << endl;
+					//cout << "author: " << book.author[i] << endl;
+					//cout << "page ID: " << book.pageID[i] << endl;
+					
+					//cout << endl;
 
 					
 					break;
@@ -137,7 +153,19 @@ void doWork() {
 
 			}
 
+			while (child != NULL)
+			{
+				child = child->PreviousSibling();
+				if (child->PreviousSiblingElement("page"))
+					book.pages[i] = child->ToElement()->GetText();
 
+				break;
+
+			}
+			
+
+			cout << book.pages[i] << endl;
+			
 		}
 
 
@@ -157,10 +185,10 @@ void doWork() {
 
 					book.issue[i] = info.substr(authChar, 6);
 
-					cout << "------------------------------------------------ " << endl << endl;
+				/*	cout << "------------------------------------------------ " << endl << endl;
 					cout << "Date: " << book.date[i] << endl;
 					cout << "Issue: " << book.issue[i] << endl;
-
+					*/
 
 				}
 
@@ -172,16 +200,19 @@ void doWork() {
 				{
 
 					book.volume = biginfo.substr(authChar, 8);
-					cout << "Volume: " << book.volume << endl;
+					/*cout << "Volume: " << book.volume << endl;*/
 				}
 
 			}
 
 		}
 
+
+		
 		i++;
 
 	}
+
 }
 
 

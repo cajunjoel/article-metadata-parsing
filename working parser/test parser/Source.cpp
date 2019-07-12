@@ -154,7 +154,8 @@ void doWork() {
 			
 			for (int authChar = 0; authChar < info.length(); authChar++)
 			{
-				if ((info[authChar] == 'N' && info[authChar + 1] == 'o' && (info[authChar + 2] == ' ' || info[authChar + 2] == '.')) || (info[authChar] == 'N') && (info[authChar + 1] == 'O' && info[authChar + 2] == '.'))
+				if ((info[authChar] == 'N' && info[authChar + 1] == 'o' && (info[authChar + 2] == ' ' || info[authChar + 2] == '.')) 
+					|| (info[authChar] == 'N' && info[authChar + 1] == 'O' && info[authChar + 2] == '.'))
 				{
 					book[i].date = info.substr(authChar + 6, 18);
 					book[i].issue = info.substr(authChar, 6);

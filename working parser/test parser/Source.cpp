@@ -212,8 +212,8 @@ void print() {
 		if(book[c].volume == "")
 		book[c].volume = book[c - 1].volume;
 
-		cout << book[c].header << ", " << book[c].author << ", " << book[c].date << ", " << book[c].volume << ", " << book[c].issue << ", " << book[c].startPageID << ", " << book[c].endPageID << ", " << book[c].startPage << ", " << book[c].endPage << endl;
-		cout << endl;
+		cout << "\"" << book[c].header << "\", \"" << book[c].author << "\", \"" << book[c].date << "\", \"" << book[c].volume << "\", \"" << book[c].issue << "\", \"" << book[c].startPageID << "\", \"" << book[c].endPageID << "\", \"" << book[c].startPage << "\", \"" << book[c].endPage << "\"" <<  endl;
+		
 	}
 
 }

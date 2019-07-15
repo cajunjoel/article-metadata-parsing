@@ -13,6 +13,7 @@ void doWork();
 void loadFile();
 string regEx(string hold);
 void print();
+void trim(string &str);
 
 int i = 0;
 int r = 0;
@@ -91,7 +92,11 @@ void doWork() {
 				if (str[authStart] == 'B' && (str[authStart + 1] == 'y' || str[authStart + 1] == 'v') && str[authStart + 2] == ' ' && child->NextSiblingElement("bodyText")) //if an author is in the title, author if next element is a body
 				{
 
-					book[i].header = str.substr(0, authStart);
+					tempstr=str.substr(0, authStart);   //tempstr reassigned
+					//tempstr.erase(remove(tempstr.begin(), tempstr.end(), '\n'), tempstr.end());
+					trim(tempstr);
+					book[i].header = tempstr;
+
 					string hold = str.substr(authStart - 1, str.size() - authStart);
 
 					regEx(hold);
@@ -126,7 +131,10 @@ void doWork() {
 
 					regEx(hold);
 
+					trim(str);
 					book[i].header = str;
+
+
 					book[i].startPageID = child->ToElement()->Attribute("page_id");
 					
 					book[i].startPage = child->ToElement()->Attribute("page_num");
@@ -151,14 +159,20 @@ void doWork() {
 
 			string biginfo = child->ToElement()->GetText();
 			string info = biginfo.substr(0, 60);
+			string anothertemp;
 			
 			for (int authChar = 0; authChar < info.length(); authChar++)
 			{
 				if ((info[authChar] == 'N' && info[authChar + 1] == 'o' && (info[authChar + 2] == ' ' || info[authChar + 2] == '.')) 
 					|| (info[authChar] == 'N' && info[authChar + 1] == 'O' && info[authChar + 2] == '.'))
 				{
-					book[i].date = info.substr(authChar + 6, 18);
-					book[i].issue = info.substr(authChar, 6);
+					anothertemp= info.substr(authChar + 6, 18);
+					trim(anothertemp);
+					book[i].date = anothertemp;
+
+					anothertemp = info.substr(authChar, 6);
+					trim(anothertemp);
+					book[i].issue = anothertemp;
 
 				}
 			}
@@ -167,7 +181,9 @@ void doWork() {
 			{
 				if (biginfo[authChar] == 'V' && (biginfo[authChar + 1] == 'O') && (biginfo[authChar + 2] == 'L' || biginfo[authChar + 2] == 'I'))
 				{
-					book[i].volume = biginfo.substr(authChar, 8);
+					anothertemp=biginfo.substr(authChar, 8);
+					trim(anothertemp);
+					book[i].volume = anothertemp;
 				}
 			}
 		}
@@ -216,4 +232,9 @@ void print() {
 		
 	}
 
+}
+
+void trim(string& str)
+{
+	str.erase(remove(str.begin(), str.end(), '\n'), str.end());
 }

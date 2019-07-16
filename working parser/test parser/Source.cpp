@@ -85,19 +85,16 @@ void doWork() {
 		{
 			string  tempstr = child->ToElement()->GetText();
 			string str = tempstr.substr(0, 200);
+			int authStart;
 
-			for (int authStart = 0; authStart < str.length(); authStart++)
+			for (authStart = 0; authStart < str.length(); authStart++)
 			{
 				if (str[authStart] == 'B' && (str[authStart + 1] == 'y' || str[authStart + 1] == 'v') && str[authStart + 2] == ' ' && child->NextSiblingElement("bodyText")) //if an author is in the title, author if next element is a body
 				{
-
-					tempstr=str.substr(0, authStart);   //tempstr reassigned
-					string hold = str.substr(authStart - 1, str.size() - authStart);
-					//tempstr.erase(remove(tempstr.begin(), tempstr.end(), '\n'), tempstr.end());
-					trim(tempstr);
-					book[i].header = tempstr;
-
-					regEx(hold);
+					tempstr = str.substr(0, authStart);
+					string auth = str.substr(authStart - 1, str.size() - authStart);
+				
+					regEx(auth);
 
 					book[i].startPageID = child->ToElement()->Attribute("page_id");
 					book[i].startPage = child->ToElement()->Attribute("page_num");
@@ -107,8 +104,22 @@ void doWork() {
 					break;
 
 				}
-			}    // this works
 
+			}// this works
+
+			for (int headstart = 0; headstart < tempstr.length(); headstart++)
+			{
+				if (isupper(tempstr[headstart])&& (isupper(tempstr[headstart+1]) || tempstr[headstart+1] == ' ' ) && isArticle==true)
+				{
+					cout << "TEMP " << tempstr << endl;
+					
+					tempstr = tempstr.substr(headstart, authStart);
+					trim(tempstr);
+					cout << "TEMP AFTER " << tempstr << endl;   //works but doesnt store properly?
+					book[i].header = tempstr;
+				}
+
+			}
 			// if author is in body
 			string temps;
 			string s;
@@ -196,7 +207,7 @@ void doWork() {
 string regEx(string hold) {
 
 	try {
-		regex r("By ([a-z.,-^ ]*?) ?(,|\\.$).*?$");
+		regex r("B[yv] ([a-z.,-^ ]*?) ?(,|\\.$).*?$");
 		smatch match;
 
 		if (regex_search(hold, match, r) && match.size() > 1)
@@ -228,7 +239,7 @@ void print() {
 		book[c].volume = book[c - 1].volume;
 
 		cout << "\"" << book[c].header << "\",\"" << book[c].author << "\",\"" << book[c].date << "\",\"" << book[c].volume << "\",\"" << book[c].issue << "\",\"" << book[c].startPageID << "\",\"" << book[c].endPageID << "\",\"" << book[c].startPage << "\",\"" << book[c].endPage << "\"" <<  endl;
-		
+		cout << endl << endl;
 	}
 
 }

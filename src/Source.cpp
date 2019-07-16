@@ -50,7 +50,7 @@ int main() {
 void loadFile() {
 
 	XMLDocument doc;
-	XMLError loadOK = doc.LoadFile("aviculturalm118941895avic.xml");
+	XMLError loadOK = doc.LoadFile("data/aviculturalm118941895avic.xml");
 
 	if (loadOK == XML_SUCCESS)
 	{

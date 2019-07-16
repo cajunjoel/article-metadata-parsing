@@ -42,7 +42,7 @@ int main() {
 	print();
 
 	delete[] book;
-
+	system("pause");
 	return 0;
 
 }

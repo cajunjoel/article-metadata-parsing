@@ -11,8 +11,8 @@ all: Source
 Source: $(OBJS)
 	$(GPP) $(LDFLAGS) -o Source $(OBJS)  $(LDLIBS) 
 
-Source.o: working\ parser/test\ parser/Source.cpp
-	$(GPP) $(CPPFLAGS) -c working\ parser/test\ parser/Source.cpp
+Source.o: src/Source.cpp
+	$(GPP) $(CPPFLAGS) -c src/Source.cpp
 
 clean:
 	$(RM) $(OBJS) $(SYMS)

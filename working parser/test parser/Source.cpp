@@ -85,7 +85,7 @@ void doWork() {
 		if (strcmp(child->Value(), "figure") == 0 || strcmp(child->Value(), "construct") == 0 || strcmp(child->Value(), "table") == 0 || strcmp(child->Value(), "equation") == 0 || strcmp(child->Value(), "sectionHeader") == 0)
 		{
 			string  tempstr = child->ToElement()->GetText();
-			string str = tempstr.substr(0, 75);
+			string str = tempstr.substr(0, 200);
 
 			for (int authStart = 0; authStart < str.length(); authStart++)
 			{
@@ -93,11 +93,10 @@ void doWork() {
 				{
 
 					tempstr=str.substr(0, authStart);   //tempstr reassigned
+					string hold = str.substr(authStart - 1, str.size() - authStart);
 					//tempstr.erase(remove(tempstr.begin(), tempstr.end(), '\n'), tempstr.end());
 					trim(tempstr);
 					book[i].header = tempstr;
-
-					string hold = str.substr(authStart - 1, str.size() - authStart);
 
 					regEx(hold);
 
@@ -132,6 +131,7 @@ void doWork() {
 					regEx(hold);
 
 					trim(str);
+
 					book[i].header = str;
 
 

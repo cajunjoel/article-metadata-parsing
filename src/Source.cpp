@@ -50,7 +50,7 @@ int main() {
 void loadFile() {
 
 	XMLDocument doc;
-	XMLError loadOK = doc.LoadFile("aviculturalm118941895avic.xml");
+	XMLError loadOK = doc.LoadFile("data/aviculturalm118941895avic.xml");
 
 	if (loadOK == XML_SUCCESS)
 	{
@@ -181,7 +181,7 @@ void doWork() {
 					trim(anothertemp);
 
 					if (anothertemp[0] == '.' || anothertemp[0] == ' ')    //gets rid of period or space stored before some dates
-						anothertemp = anothertemp.substr(1, NULL);
+						anothertemp = anothertemp.substr(1, anothertemp.length() - 1);
 
 					book[i].date = capitalize(anothertemp);
 

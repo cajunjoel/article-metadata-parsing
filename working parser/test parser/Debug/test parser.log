@@ -1,8 +1,8 @@
 ﻿  Source.cpp
 c:\users\taygs\source\repos\cajunjoel\article-metadata-parsing\working parser\test parser\source.cpp(90): warning C4018: '<': signed/unsigned mismatch
 c:\users\taygs\source\repos\cajunjoel\article-metadata-parsing\working parser\test parser\source.cpp(110): warning C4018: '<': signed/unsigned mismatch
-c:\users\taygs\source\repos\cajunjoel\article-metadata-parsing\working parser\test parser\source.cpp(134): warning C4018: '<': signed/unsigned mismatch
+c:\users\taygs\source\repos\cajunjoel\article-metadata-parsing\working parser\test parser\source.cpp(133): warning C4018: '<': signed/unsigned mismatch
 c:\users\taygs\source\repos\cajunjoel\article-metadata-parsing\working parser\test parser\source.cpp(174): warning C4018: '<': signed/unsigned mismatch
-c:\users\taygs\source\repos\cajunjoel\article-metadata-parsing\working parser\test parser\source.cpp(190): warning C4018: '<': signed/unsigned mismatch
-c:\users\taygs\source\repos\cajunjoel\article-metadata-parsing\working parser\test parser\source.cpp(219): warning C4101: 'e': unreferenced local variable
+c:\users\taygs\source\repos\cajunjoel\article-metadata-parsing\working parser\test parser\source.cpp(195): warning C4018: '<': signed/unsigned mismatch
+c:\users\taygs\source\repos\cajunjoel\article-metadata-parsing\working parser\test parser\source.cpp(224): warning C4101: 'e': unreferenced local variable
   test parser.vcxproj -> C:\Users\taygs\source\repos\cajunjoel\article-metadata-parsing\working parser\Debug\test parser.exe

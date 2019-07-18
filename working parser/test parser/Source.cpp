@@ -14,9 +14,9 @@ void loadFile();
 string regEx(string hold);
 void print();
 void trim(string &str);
+string capitalize(string &str);
 
 int i = 0;
-int r = 0;
 
 XMLElement* root;
 
@@ -81,9 +81,9 @@ void doWork() {
 	{
 		bool isArticle = false;
 
-		if (strcmp(child->Value(), "figure") == 0 || strcmp(child->Value(), "construct") == 0 || strcmp(child->Value(), "table") == 0 || strcmp(child->Value(), "equation") == 0 || strcmp(child->Value(), "sectionHeader") == 0)
+		if (strcmp(child->Value(), "figure") == 0 || strcmp(child->Value(), "construct") == 0 || strcmp(child->Value(), "table") == 0 || strcmp(child->Value(), "equation") == 0 || strcmp(child->Value(), "sectionHeader") == 0)   //sections where headers are located
 		{
-			string  tempstr = child->ToElement()->GetText();
+			string  tempstr = child->ToElement()->GetText();   //store all of text then narrow it down to 200 characters
 			string str = tempstr.substr(0, 200);
 			int authStart;
 
@@ -91,8 +91,8 @@ void doWork() {
 			{
 				if (str[authStart] == 'B' && (str[authStart + 1] == 'y' || str[authStart + 1] == 'v') && str[authStart + 2] == ' ' && child->NextSiblingElement("bodyText")) //if an author is in the title, author if next element is a body
 				{
-					tempstr = str.substr(0, authStart);
-					string auth = str.substr(authStart - 1, str.size() - authStart);
+					tempstr = str.substr(0, authStart);            //store string until 'B' and 'y'
+					string auth = str.substr(authStart - 1, str.size() - authStart);    //store string after'B' 'y'
 				
 					regEx(auth);
 
@@ -109,14 +109,13 @@ void doWork() {
 
 			for (int headstart = 0; headstart < tempstr.length(); headstart++)
 			{
-				if (isupper(tempstr[headstart])&& (isupper(tempstr[headstart+1]) || tempstr[headstart+1] == ' ' ) && isArticle==true)
+				if (isupper(tempstr[headstart])&& (isupper(tempstr[headstart+1]) || tempstr[headstart+1] == ' ' ) && isArticle==true)   //double checking to make sure only uppercase headers that are an article are stored
 				{
-					cout << "TEMP " << tempstr << endl;
-					
 					tempstr = tempstr.substr(headstart, authStart);
 					trim(tempstr);
-					cout << "TEMP AFTER " << tempstr << endl;   //works but doesnt store properly?
+					capitalize(tempstr);
 					book[i].header = tempstr;
+					break;
 				}
 
 			}
@@ -141,6 +140,7 @@ void doWork() {
 					regEx(hold);
 
 					trim(str);
+					capitalize(str);
 
 					book[i].header = str;
 
@@ -164,7 +164,7 @@ void doWork() {
 		}
 
 
-		if (strcmp(child->Value(), "bodyText") == 0 || strcmp(child->Value(), "keyword") == 0 || strcmp(child->Value(), "construct") == 0)
+		if (strcmp(child->Value(), "bodyText") == 0 || strcmp(child->Value(), "keyword") == 0 || strcmp(child->Value(), "construct") == 0)   //sections where date, issue and vol are
 		{
 
 			string biginfo = child->ToElement()->GetText();
@@ -173,23 +173,28 @@ void doWork() {
 			
 			for (int authChar = 0; authChar < info.length(); authChar++)
 			{
-				if ((info[authChar] == 'N' && info[authChar + 1] == 'o' && (info[authChar + 2] == ' ' || info[authChar + 2] == '.')) 
+				if ((info[authChar] == 'N' && info[authChar + 1] == 'o' && (info[authChar + 2] == ' ' || info[authChar + 2] == '.'))    //issues are marked by "NO., No. or No "
 					|| (info[authChar] == 'N' && info[authChar + 1] == 'O' && info[authChar + 2] == '.'))
 				{
+					
 					anothertemp= info.substr(authChar + 6, 18);
 					trim(anothertemp);
-					book[i].date = anothertemp;
+
+					if (anothertemp[0] == '.' || anothertemp[0] == ' ')    //gets rid of period or space stored before some dates
+						anothertemp = anothertemp.substr(1, NULL);
+
+					book[i].date = capitalize(anothertemp);
 
 					anothertemp = info.substr(authChar, 6);
 					trim(anothertemp);
-					book[i].issue = anothertemp;
+					book[i].issue = capitalize(anothertemp);
 
 				}
 			}
 
 			for (int authChar = 0; authChar < biginfo.length(); authChar++)
 			{
-				if (biginfo[authChar] == 'V' && (biginfo[authChar + 1] == 'O') && (biginfo[authChar + 2] == 'L' || biginfo[authChar + 2] == 'I'))
+				if (biginfo[authChar] == 'V' && (biginfo[authChar + 1] == 'O') && (biginfo[authChar + 2] == 'L' || biginfo[authChar + 2] == 'I'))   //volumes are marked by "VOL" or "VOI"
 				{
 					anothertemp=biginfo.substr(authChar, 8);
 					trim(anothertemp);
@@ -198,13 +203,13 @@ void doWork() {
 			}
 		}
 
-		if (isArticle == true)
+		if (isArticle == true)  //only increase i if articles are found
 			i++;
 	}
 }
 
-
-string regEx(string hold) {
+ 
+string regEx(string hold) {    //to find authors, use reg expression
 
 	try {
 		regex r("B[yv] ([a-z.,-^ ]*?) ?(,|\\.$).*?$");
@@ -231,8 +236,9 @@ void print() {
 	{
 		if (book[c].date == "")
 		{
-			book[c].date = book[c - 1].date;
-			book[c].issue = book[c - 1].issue;
+
+			book[c].date = capitalize(book[c - 1].date);
+			book[c].issue = capitalize(book[c - 1].issue);
 		}
 
 		if(book[c].volume == "")
@@ -243,8 +249,27 @@ void print() {
 	}
 
 }
-
-void trim(string& str)
+ 
+void trim(string& str)     //trims away new line characters in xml
 {
 	str.erase(remove(str.begin(), str.end(), '\n'), str.end());
+}
+
+string capitalize(string &str)
+{
+
+	if (!str.empty())
+	{
+		str[0] = toupper(str[0]);
+
+		for (size_t i = 1; i < str.length(); ++i)
+		{
+			str[i] = tolower(str[i]);
+			if (str[i - 1] == ' ' || str[i-1] == '-' || str[i-1] =='.')
+				str[i] = toupper(str[i]);
+		}
+	}
+
+	
+	return str;
 }

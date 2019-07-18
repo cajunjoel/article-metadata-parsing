@@ -4,14 +4,13 @@
 #include<algorithm>
 #include<regex>
 
-
 using namespace tinyxml2;
 using namespace std;
 
 
 void doWork();
 void loadFile();
-string regEx(string hold);
+string regEx(const string &hold);
 void print();
 void trim(string &str);
 string capitalize(string &str);
@@ -42,7 +41,7 @@ int main() {
 	print();
 
 	delete[] book;
-	system("pause");
+	// system("pause");
 	return 0;
 
 }
@@ -94,8 +93,8 @@ void doWork() {
 					tempstr = str.substr(0, authStart);            //store string until 'B' and 'y'
 					string auth = str.substr(authStart - 1, str.size() - authStart);    //store string after'B' 'y'
 				
-					regEx(auth);
-
+					book[i].author = regEx(auth);
+					
 					book[i].startPageID = child->ToElement()->Attribute("page_id");
 					book[i].startPage = child->ToElement()->Attribute("page_num");
 
@@ -137,8 +136,7 @@ void doWork() {
 
 					string hold = s.substr(authChar, 25);
 
-					regEx(hold);
-
+					book[i].author = regEx(hold);
 					trim(str);
 					capitalize(str);
 
@@ -146,7 +144,7 @@ void doWork() {
 
 
 					book[i].startPageID = child->ToElement()->Attribute("page_id");
-					
+
 					book[i].startPage = child->ToElement()->Attribute("page_num");
 
 					isArticle = true;
@@ -209,24 +207,31 @@ void doWork() {
 }
 
  
-string regEx(string hold) {    //to find authors, use reg expression
+string regEx(const string &hold) {    //to find authors, use reg expression
 
+	// cout << "Looking at: ---" << hold << "---" << endl;
 	try {
 		regex r("B[yv] ([a-z.,-^ ]*?) ?(,|\\.$).*?$");
+		regex r2("B[yv] ([a-z.,-^ ]*?)[ .,]?[\n\r]+");
+		regex r3("B[yv] ([a-z.,-^ ]*?)[\n\r]+");
 		smatch match;
 
-		if (regex_search(hold, match, r) && match.size() > 1)
-			book[i].author = match.str(1);
-		else
-			book[i].author = string("");
+		if (regex_search(hold, match, r)) {
+			return match[1];
+			// cout << "Working: " << hold << " --> " << match[1] << endl;
+		} else if (regex_search(hold, match, r2)) {
+			return match[1];
+		} else {
+			return string("");
+			// cout << " not Working: " << hold << endl;
+		}
 
-	}
-	catch (regex_error& e)
-	{
-		cout << string("") << endl;
+	} catch (regex_error& e) {
+		return string("");
+		// cout << " error!" << string("") << endl;
 	}
 
-	return book[i].author;
+	return string("");
 }
 
 	
@@ -236,7 +241,6 @@ void print() {
 	{
 		if (book[c].date == "")
 		{
-
 			book[c].date = capitalize(book[c - 1].date);
 			book[c].issue = capitalize(book[c - 1].issue);
 		}
@@ -244,8 +248,8 @@ void print() {
 		if(book[c].volume == "")
 		book[c].volume = book[c - 1].volume;
 
-		cout << "\"" << book[c].header << "\",\"" << book[c].author << "\",\"" << book[c].date << "\",\"" << book[c].volume << "\",\"" << book[c].issue << "\",\"" << book[c].startPageID << "\",\"" << book[c].endPageID << "\",\"" << book[c].startPage << "\",\"" << book[c].endPage << "\"" <<  endl;
-		cout << endl << endl;
+		cout << "\"" << c << "\"\t\"" << book[c].header << "\"\t\"" << book[c].author << "\"\t\"" << book[c].date << "\"\t\"" << book[c].volume << "\"\t\"" << book[c].issue << "\"\t\"" << book[c].startPageID << "\"\t\"" << book[c].endPageID << "\"\t\"" << book[c].startPage << "\"\t\"" << book[c].endPage << "\"" <<  endl;
+		// cout << book[i].header << endl;
 	}
 
 }

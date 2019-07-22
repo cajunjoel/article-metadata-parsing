@@ -1,4 +1,4 @@
-CPPFLAGS=
+CPPFLAGS=-g
 LDFLAGS=-g
 LDLIBS=
 RM=rm -fr

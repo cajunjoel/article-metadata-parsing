@@ -9,7 +9,7 @@ using namespace std;
 
 
 void doWork();
-void loadFile();
+void loadFile(int argc, char* argv[]);
 string regEx(const string &hold);
 void print();
 void trim(string &str);
@@ -35,9 +35,9 @@ struct magazine {
 
 magazine* book = new magazine[500];
 
-int main() {
+int main(int argc, char* argv[]) {
 
-	loadFile();
+	loadFile(argc, argv);
 	print();
 
 	delete[] book;
@@ -46,10 +46,15 @@ int main() {
 
 }
 
-void loadFile() {
+void loadFile(int argc, char* argv[]) {
 
 	XMLDocument doc;
-	XMLError loadOK = doc.LoadFile("data/aviculturalm118941895avic.xml");
+
+	if(argc>0){
+
+	XMLError loadOK = doc.LoadFile(argv[1]);
+
+	cout << "FILE NAME :" << argv[1] << endl;
 
 	if (loadOK == XML_SUCCESS)
 	{
@@ -57,7 +62,6 @@ void loadFile() {
 
 		if (root != NULL)
 		{
-
 			doWork();
 		}
 
@@ -68,7 +72,7 @@ void loadFile() {
 
 	else
 		cout << "Error loading file " << endl;
-
+	}
 }
 
 
@@ -80,7 +84,12 @@ void doWork() {
 	{
 		bool isArticle = false;
 
-		if (strcmp(child->Value(), "figure") == 0 || strcmp(child->Value(), "construct") == 0 || strcmp(child->Value(), "table") == 0 || strcmp(child->Value(), "equation") == 0 || strcmp(child->Value(), "sectionHeader") == 0)   //sections where headers are located
+		if(strcmp(child->Value(), "author") == 0)
+		{
+			book[i].author == child->ToElement()->GetText();
+		}
+
+		if (strcmp(child->Value(), "figure") == 0 || strcmp(child->Value(), "construct") == 0 || strcmp(child->Value(), "table") == 0 || strcmp(child->Value(), "equation") == 0 || strcmp(child->Value(), "sectionHeader") == 0 || strcmp(child->Value(), "listItem") == 0 )   //sections where headers are located
 		{
 			string  tempstr = child->ToElement()->GetText();   //store all of text then narrow it down to 200 characters
 			string str = tempstr.substr(0, 200);
@@ -192,7 +201,7 @@ void doWork() {
 
 			for (int authChar = 0; authChar < biginfo.length(); authChar++)
 			{
-				if (biginfo[authChar] == 'V' && (biginfo[authChar + 1] == 'O') && (biginfo[authChar + 2] == 'L' || biginfo[authChar + 2] == 'I'))   //volumes are marked by "VOL" or "VOI"
+				if ((biginfo[authChar] == 'V' || biginfo[authChar] == 'Y'  )&& (biginfo[authChar + 1] == 'O') && (biginfo[authChar + 2] == 'L' || biginfo[authChar + 2] == 'I'))   //volumes are marked by "VOL" or "VOI"
 				{
 					anothertemp=biginfo.substr(authChar, 8);
 					trim(anothertemp);
@@ -250,6 +259,7 @@ void print() {
 
 		cout << "\"" << c << "\"\t\"" << book[c].header << "\"\t\"" << book[c].author << "\"\t\"" << book[c].date << "\"\t\"" << book[c].volume << "\"\t\"" << book[c].issue << "\"\t\"" << book[c].startPageID << "\"\t\"" << book[c].endPageID << "\"\t\"" << book[c].startPage << "\"\t\"" << book[c].endPage << "\"" <<  endl;
 		// cout << book[i].header << endl;
+		//cout << "DO i get here?"  << endl;
 	}
 
 }

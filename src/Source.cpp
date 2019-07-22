@@ -50,24 +50,24 @@ void loadFile(int argc, char* argv[]) {
 
 	XMLDocument doc;
 	if(argc>0){
+	
+		XMLError loadOK = doc.LoadFile(argv[1]);
 
-	XMLError loadOK = doc.LoadFile(argv[1]);
+		cout << "FILE NAME: " << argv[1] << endl;
 
-	cout << "FILE NAME :" << argv[1] << endl;
-
-	if (loadOK == XML_SUCCESS)
-	{
-		 root = doc.FirstChildElement("algorithms");  //for finding root element
-
-		if (root != NULL)
+		if (loadOK == XML_SUCCESS)
 		{
-			doWork();
-		}
+			root = doc.FirstChildElement("algorithms");  //for finding root element
 
-		else
-			cout << "root is null " << endl;
-		
-	}
+			if (root != NULL)
+			{
+				doWork();
+			}
+
+			else
+				cout << "root is null " << endl;
+			
+		}
 
 	else
 		cout << "Error loading file " << endl;
@@ -78,6 +78,7 @@ void loadFile(int argc, char* argv[]) {
 void doWork() {
 
 	//iterates through rest of child nodes
+	int joelcount = 0;
 
 	for (XMLNode* child = root->FirstChild(); child != NULL; child = child->NextSibling())
 	{
@@ -85,12 +86,13 @@ void doWork() {
 
 		if(strcmp(child->Value(), "author") == 0)
 		{
-			book[i].author == child->ToElement()->GetText();
+			book[i].author = child->ToElement()->GetText();
 		}
-
+		joelcount++;
+	
 		if (strcmp(child->Value(), "figure") == 0 || strcmp(child->Value(), "construct") == 0 || strcmp(child->Value(), "table") == 0 || strcmp(child->Value(), "equation") == 0 || strcmp(child->Value(), "sectionHeader") == 0 || strcmp(child->Value(), "listItem") == 0 )   //sections where headers are located
 		{
-			string  tempstr = child->ToElement()->GetText();   //store all of text then narrow it down to 200 characters
+			string tempstr = child->ToElement()->GetText();   //store all of text then narrow it down to 200 characters
 			string str = tempstr.substr(0, 200);
 			int authStart;
 
@@ -113,7 +115,6 @@ void doWork() {
 				}
 
 			}// this works
-
 			for (int headstart = 0; headstart < tempstr.length(); headstart++)
 			{
 				if (isupper(tempstr[headstart])&& (isupper(tempstr[headstart+1]) || tempstr[headstart+1] == ' ' ) && isArticle==true)   //double checking to make sure only uppercase headers that are an article are stored
@@ -129,37 +130,43 @@ void doWork() {
 			// if author is in body
 			string temps;
 			string s;
+			
+			XMLElement* sib = child->NextSiblingElement();
 
-			if (child->NextSiblingElement("bodyText") != NULL)
-			{
-				temps = child->NextSiblingElement("bodyText")->GetText();
-				s = temps.substr(0, 75);
-
-			}
-
-			for (int authChar = 0; authChar < s.length(); authChar++)  //if author is in the body
-			{
-				if (s[authChar] == 'B' && (s[authChar + 1] == 'y'))
+			if (sib) {
+				if (strcmp(sib->Value(), "bodyText") == 1)
 				{
+					temps = child->NextSiblingElement()->GetText();
+					s = temps.substr(0, 75);
 
-					string hold = s.substr(authChar, 25);
+					for (int authChar = 0; authChar < s.length(); authChar++)  //if author is in the body
+					{
+						if (s[authChar] == 'B' && (s[authChar + 1] == 'y'))
+						{
 
-					book[i].author = regEx(hold);
-					trim(str);
-					capitalize(str);
+							string hold = s.substr(authChar, 25);
 
-					book[i].header = str;
+							book[i].author = regEx(hold);
+							trim(str);
+							capitalize(str);
+
+							book[i].header = str;
 
 
-					book[i].startPageID = child->ToElement()->Attribute("page_id");
+							book[i].startPageID = child->ToElement()->Attribute("page_id");
 
-					book[i].startPage = child->ToElement()->Attribute("page_num");
+							book[i].startPage = child->ToElement()->Attribute("page_num");
 
-					isArticle = true;
+							isArticle = true;
 
-					break;
+							break;
+						}
+					}
+
 				}
+				
 			}
+
 
 			//when the next section header, the article ends // so end page # and page id
 			if (i >= 1 && isArticle)
@@ -264,7 +271,10 @@ void print() {
  
 void trim(string& str)     //trims away new line characters in xml
 {
-	str.erase(remove(str.begin(), str.end(), '\n'), str.end());
+	regex r("[\r\n]+");
+	
+	str = regex_replace(str, r, " ");
+	// str.erase(remove(str.begin(), str.end(), '\n'), str.end());
 }
 
 string capitalize(string &str)

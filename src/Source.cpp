@@ -9,7 +9,11 @@ using namespace std;
 
 
 void doWork();
+<<<<<<< HEAD
 void loadFile(int argc, char* argv[]);
+=======
+void loadFile();
+>>>>>>> 202497af3005c4471a90d6946b7adcf9067f2f85
 string regEx(const string &hold);
 void print();
 void trim(string &str);
@@ -49,12 +53,16 @@ int main(int argc, char* argv[]) {
 void loadFile(int argc, char* argv[]) {
 
 	XMLDocument doc;
+<<<<<<< HEAD
 
 	if(argc>0){
 
 	XMLError loadOK = doc.LoadFile(argv[1]);
 
 	cout << "FILE NAME :" << argv[1] << endl;
+=======
+	XMLError loadOK = doc.LoadFile("data/aviculturalm118941895avic.xml");
+>>>>>>> 202497af3005c4471a90d6946b7adcf9067f2f85
 
 	if (loadOK == XML_SUCCESS)
 	{
@@ -259,7 +267,10 @@ void print() {
 
 		cout << "\"" << c << "\"\t\"" << book[c].header << "\"\t\"" << book[c].author << "\"\t\"" << book[c].date << "\"\t\"" << book[c].volume << "\"\t\"" << book[c].issue << "\"\t\"" << book[c].startPageID << "\"\t\"" << book[c].endPageID << "\"\t\"" << book[c].startPage << "\"\t\"" << book[c].endPage << "\"" <<  endl;
 		// cout << book[i].header << endl;
+<<<<<<< HEAD
 		//cout << "DO i get here?"  << endl;
+=======
+>>>>>>> 202497af3005c4471a90d6946b7adcf9067f2f85
 	}
 
 }

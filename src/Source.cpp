@@ -53,7 +53,7 @@ void loadFile(int argc, char* argv[]) {
 	
 		XMLError loadOK = doc.LoadFile(argv[1]);
 
-		cout << "FILE NAME: " << argv[1] << endl;
+		// cout << "FILE NAME: " << argv[1] << endl;
 
 		if (loadOK == XML_SUCCESS)
 		{
@@ -89,52 +89,65 @@ void doWork() {
 			book[i].author = child->ToElement()->GetText();
 		}
 		joelcount++;
-	
+		//  cout << "(" << joelcount << ") " << child->Value() << endl;
+
 		if (strcmp(child->Value(), "figure") == 0 || strcmp(child->Value(), "construct") == 0 || strcmp(child->Value(), "table") == 0 || strcmp(child->Value(), "equation") == 0 || strcmp(child->Value(), "sectionHeader") == 0 || strcmp(child->Value(), "listItem") == 0 )   //sections where headers are located
 		{
 			string tempstr = child->ToElement()->GetText();   //store all of text then narrow it down to 200 characters
 			string str = tempstr.substr(0, 200);
+			// cout << "str: " << str << endl; 
 			int authStart;
 
-			for (authStart = 0; authStart < str.length(); authStart++)
-			{
-				if (str[authStart] == 'B' && (str[authStart + 1] == 'y' || str[authStart + 1] == 'v') && str[authStart + 2] == ' ' && child->NextSiblingElement("bodyText")) //if an author is in the title, author if next element is a body
-				{
-					tempstr = str.substr(0, authStart);            //store string until 'B' and 'y'
-					string auth = str.substr(authStart - 1, str.size() - authStart);    //store string after'B' 'y'
-				
-					book[i].author = regEx(auth);
-					
-					book[i].startPageID = child->ToElement()->Attribute("page_id");
-					book[i].startPage = child->ToElement()->Attribute("page_num");
-
-					isArticle = true;
-
-					break;
-
-				}
-
-			}// this works
-			for (int headstart = 0; headstart < tempstr.length(); headstart++)
-			{
-				if (isupper(tempstr[headstart])&& (isupper(tempstr[headstart+1]) || tempstr[headstart+1] == ' ' ) && isArticle==true)   //double checking to make sure only uppercase headers that are an article are stored
-				{
-					tempstr = tempstr.substr(headstart, authStart);
-					trim(tempstr);
-					capitalize(tempstr);
-					book[i].header = tempstr;
-					break;
-				}
-
-			}
-			// if author is in body
-			string temps;
-			string s;
-			
 			XMLElement* sib = child->NextSiblingElement();
+			// cout << "str.length(): " << str.length() << endl;
 
 			if (sib) {
-				if (strcmp(sib->Value(), "bodyText") == 1)
+				if (str.length() > 3) {
+					for (authStart = 0; authStart < (str.length() - 3) ; authStart++)
+					{
+						// cout << "here0" << endl;
+						if (str[authStart] == 'B' 
+							&& (str[authStart + 1] == 'y' || str[authStart + 1] == 'v') 
+							&& str[authStart + 2] == ' ' 
+							&& strcmp(sib->Value(), "bodyText") == 0) 
+							// if an author is in the title, it's the author of the next bodytext element
+						{
+							tempstr = str.substr(0, authStart);            //store string until 'B' and 'y'
+							string auth = str.substr(authStart - 1, str.length() - authStart);    //store string after'B' 'y'
+						
+							book[i].author = regEx(auth);
+							
+							book[i].startPageID = child->ToElement()->Attribute("page_id");
+							book[i].startPage = child->ToElement()->Attribute("page_num");
+
+							isArticle = true;
+
+							break;
+
+						}
+
+					}// this works
+
+				}
+				// cout << "here1" << endl;
+
+				for (int headstart = 0; headstart < tempstr.length(); headstart++)
+				{
+					if (isupper(tempstr[headstart])&& (isupper(tempstr[headstart+1]) || tempstr[headstart+1] == ' ' ) && isArticle==true)   //double checking to make sure only uppercase headers that are an article are stored
+					{
+						tempstr = tempstr.substr(headstart, authStart);
+						trim(tempstr);
+						capitalize(tempstr);
+						book[i].header = tempstr;
+						break;
+					}
+
+				}
+				// if author is in body
+				string temps;
+				string s;
+			
+				if (strcmp(sib->Value(), "bodyText") == 0)
 				{
 					temps = child->NextSiblingElement()->GetText();
 					s = temps.substr(0, 75);

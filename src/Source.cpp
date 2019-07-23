@@ -134,7 +134,7 @@ void doWork() {
 			XMLElement* sib = child->NextSiblingElement();
 
 			if (sib) {
-				if (strcmp(sib->Value(), "bodyText") == 1)
+				if (strcmp(sib->Value(), "bodyText") == 0)
 				{
 					temps = child->NextSiblingElement()->GetText();
 					s = temps.substr(0, 75);
@@ -181,7 +181,7 @@ void doWork() {
 		{
 
 			string biginfo = child->ToElement()->GetText();
-			string info = biginfo.substr(0, 60);
+			string info = biginfo.substr(0, 100);
 			string anothertemp;
 			
 			for (int authChar = 0; authChar < info.length(); authChar++)
@@ -189,11 +189,12 @@ void doWork() {
 				if ((info[authChar] == 'N' && info[authChar + 1] == 'o' && (info[authChar + 2] == ' ' || info[authChar + 2] == '.'))    //issues are marked by "NO., No. or No "
 					|| (info[authChar] == 'N' && info[authChar + 1] == 'O' && info[authChar + 2] == '.'))
 				{
-					
-					anothertemp= info.substr(authChar + 6, 18);
+					anothertemp = info.substr(authChar + 6, 50);
+					//anothertemp = regEx(anothertemp);
+					//need regular expression
 					trim(anothertemp);
 
-					if (anothertemp[0] == '.' || anothertemp[0] == ' ')    //gets rid of period or space stored before some dates
+					if (anothertemp[0] == '.' || anothertemp[0] == ' ')   //gets rid of period or space stored before some dates
 						anothertemp = anothertemp.substr(1, anothertemp.length() - 1);
 
 					book[i].date = capitalize(anothertemp);
@@ -224,11 +225,12 @@ void doWork() {
  
 string regEx(const string &hold) {    //to find authors, use reg expression
 
-	// cout << "Looking at: ---" << hold << "---" << endl;
+	 cout << "Looking at: ---" << hold << "---" << endl;
 	try {
 		regex r("B[yv] ([a-z.,-^ ]*?) ?(,|\\.$).*?$");
 		regex r2("B[yv] ([a-z.,-^ ]*?)[ .,]?[\n\r]+");
 		regex r3("B[yv] ([a-z.,-^ ]*?)[\n\r]+");
+		regex r4("[A-Z, ]*?[0-9]{4}");
 		smatch match;
 
 		if (regex_search(hold, match, r)) {
@@ -236,7 +238,10 @@ string regEx(const string &hold) {    //to find authors, use reg expression
 			// cout << "Working: " << hold << " --> " << match[1] << endl;
 		} else if (regex_search(hold, match, r2)) {
 			return match[1];
-		} else {
+		} else if(regex_search(hold,match,r4)){
+			return match[1];
+			cout << "working: " << hold << "-->" << match[1] << endl;
+		}else {
 			return string("");
 			// cout << " not Working: " << hold << endl;
 		}
@@ -263,7 +268,7 @@ void print() {
 		if(book[c].volume == "")
 		book[c].volume = book[c - 1].volume;
 
-		cout << "\"" << c << "\"\t\"" << book[c].header << "\"\t\"" << book[c].author << "\"\t\"" << book[c].date << "\"\t\"" << book[c].volume << "\"\t\"" << book[c].issue << "\"\t\"" << book[c].startPageID << "\"\t\"" << book[c].endPageID << "\"\t\"" << book[c].startPage << "\"\t\"" << book[c].endPage << "\"" <<  endl;
+		//cout << "\"" << c << "\"\t\"" << book[c].header << "\"\t\"" << book[c].author << "\"\t\"" << book[c].date << "\"\t\"" << book[c].volume << "\"\t\"" << book[c].issue << "\"\t\"" << book[c].startPageID << "\"\t\"" << book[c].endPageID << "\"\t\"" << book[c].startPage << "\"\t\"" << book[c].endPage << "\"" <<  endl;
 		// cout << book[i].header << endl;
 	}
 

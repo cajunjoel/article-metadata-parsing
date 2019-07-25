@@ -2,6 +2,7 @@
 #include<string>
 #include<iostream>
 #include<algorithm>
+#include<cstddef>
 #include<regex>
 
 using namespace tinyxml2;
@@ -10,10 +11,12 @@ using namespace std;
 
 void doWork();
 void loadFile(int argc, char* argv[]);
-string regEx(const string &hold);
+string findAuthor(const string &hold);
 void print();
-void trim(string &str);
-string capitalize(string &str);
+string trim(string str);
+string capitalize(string str);
+void findAndReplaceAll(std::string & data, std::string toSearch, std::string replaceStr);
+string fixRomanNumerals(std::string str);
 
 int i = 0;
 
@@ -26,14 +29,15 @@ struct magazine {
 	string date;
 	string volume;
 	string issue;
+	string number;
 	string startPage;
 	string endPage;
 	string startPageID;
 	string endPageID;
 
 };
-
 magazine* book = new magazine[500];
+
 
 int main(int argc, char* argv[]) {
 
@@ -41,7 +45,6 @@ int main(int argc, char* argv[]) {
 	print();
 
 	delete[] book;
-	// system("pause");
 	return 0;
 
 }
@@ -53,8 +56,6 @@ void loadFile(int argc, char* argv[]) {
 	
 		XMLError loadOK = doc.LoadFile(argv[1]);
 
-		// cout << "FILE NAME: " << argv[1] << endl;
-
 		if (loadOK == XML_SUCCESS)
 		{
 			root = doc.FirstChildElement("algorithms");  //for finding root element
@@ -65,47 +66,53 @@ void loadFile(int argc, char* argv[]) {
 			}
 
 			else
-				cout << "root is null " << endl;
+				cerr << "root is null " << endl;
 			
 		}
 
 	else
-		cout << "Error loading file " << endl;
+		cerr << "Error loading file " << endl;
 	}
 }
 
+/* 
+Function: doWork()
 
+Cycles through XML file to extract the article information
+
+*/
 void doWork() {
 
-	//iterates through rest of child nodes
-	int joelcount = 0;
-
+	//iterates through all of child nodes
 	for (XMLNode* child = root->FirstChild(); child != NULL; child = child->NextSibling())
 	{
 		bool isArticle = false;
+		smatch match;
 
+		// This code may not be used 
 		if(strcmp(child->Value(), "author") == 0)
 		{
 			book[i].author = child->ToElement()->GetText();
 		}
-		joelcount++;
-		//  cout << "(" << joelcount << ") " << child->Value() << endl;
-
-		if (strcmp(child->Value(), "figure") == 0 || strcmp(child->Value(), "construct") == 0 || strcmp(child->Value(), "table") == 0 || strcmp(child->Value(), "equation") == 0 || strcmp(child->Value(), "sectionHeader") == 0 || strcmp(child->Value(), "listItem") == 0 )   //sections where headers are located
+		// Decide if this is a section header and grab info 
+		if (strcmp(child->Value(), "figure") == 0 || strcmp(child->Value(), "construct") == 0 || strcmp(child->Value(), "table") == 0 
+		    || strcmp(child->Value(), "equation") == 0 || strcmp(child->Value(), "sectionHeader") == 0 
+			|| strcmp(child->Value(), "listItem") == 0 )   //sections where headers are located
 		{
 			string tempstr = child->ToElement()->GetText();   //store all of text then narrow it down to 200 characters
 			string str = tempstr.substr(0, 200);
-			// cout << "str: " << str << endl; 
+			// cerr << "str: " << str << endl; 
 			int authStart;
 
 			XMLElement* sib = child->NextSiblingElement();
-			// cout << "str.length(): " << str.length() << endl;
+			// cerr << "str.length(): " << str.length() << endl;
 
+			// Extract the author
 			if (sib) {
 				if (str.length() > 3) {
 					for (authStart = 0; authStart < (str.length() - 3) ; authStart++)
 					{
-						// cout << "here0" << endl;
+						// cerr << "here0" << endl;
 						if (str[authStart] == 'B' 
 							&& (str[authStart + 1] == 'y' || str[authStart + 1] == 'v') 
 							&& str[authStart + 2] == ' ' 
@@ -115,7 +122,7 @@ void doWork() {
 							tempstr = str.substr(0, authStart);            //store string until 'B' and 'y'
 							string auth = str.substr(authStart - 1, str.length() - authStart);    //store string after'B' 'y'
 						
-							book[i].author = regEx(auth);
+							book[i].author = capitalize(trim(findAuthor(auth)));
 							
 							book[i].startPageID = child->ToElement()->Attribute("page_id");
 							book[i].startPage = child->ToElement()->Attribute("page_num");
@@ -129,15 +136,14 @@ void doWork() {
 					}// this works
 
 				}
-				// cout << "here1" << endl;
 
 				for (int headstart = 0; headstart < tempstr.length(); headstart++)
 				{
 					if (isupper(tempstr[headstart])&& (isupper(tempstr[headstart+1]) || tempstr[headstart+1] == ' ' ) && isArticle==true)   //double checking to make sure only uppercase headers that are an article are stored
 					{
 						tempstr = tempstr.substr(headstart, authStart);
-						trim(tempstr);
-						capitalize(tempstr);
+						tempstr = trim(tempstr);
+						tempstr = capitalize(tempstr);
 						book[i].header = tempstr;
 						break;
 					}
@@ -156,18 +162,12 @@ void doWork() {
 					{
 						if (s[authChar] == 'B' && (s[authChar + 1] == 'y'))
 						{
-
 							string hold = s.substr(authChar, 25);
 
-							book[i].author = regEx(hold);
-							trim(str);
-							capitalize(str);
-
-							book[i].header = str;
-
+							book[i].author = capitalize(trim(findAuthor(hold)));
+							book[i].header = capitalize(trim(str));
 
 							book[i].startPageID = child->ToElement()->Attribute("page_id");
-
 							book[i].startPage = child->ToElement()->Attribute("page_num");
 
 							isArticle = true;
@@ -180,6 +180,14 @@ void doWork() {
 				
 			}
 
+			regex titleRegex(".*?All Rights Reserved. [A-Za-z]+, [0-9]{4}[.,]?(.+)");
+			// regex titleRegex("(All Rights Reserved. [A-Za-z]+, [0-9]{4})");
+			cerr << "TITLE BEFORE: " << book[i].header << endl ;
+			if (regex_search(book[i].header, match, titleRegex)) {
+				cerr << "TITLE Regex Matched: " << match[1].str() << endl ;
+				book[i].header = capitalize(trim(match[1].str()));
+			}
+			// book[i].header = fixRomanNumerals(book[i].header);
 
 			//when the next section header, the article ends // so end page # and page id
 			if (i >= 1 && isArticle)
@@ -189,44 +197,35 @@ void doWork() {
 			}
 		}
 
-
+		// Decide if this is a body of text and grab author, date, issue, number.
 		if (strcmp(child->Value(), "bodyText") == 0 || strcmp(child->Value(), "keyword") == 0 || strcmp(child->Value(), "construct") == 0)   //sections where date, issue and vol are
 		{
-
 			string biginfo = child->ToElement()->GetText();
-			string info = biginfo.substr(0, 60);
-			string anothertemp;
-			
-			for (int authChar = 0; authChar < info.length(); authChar++)
-			{
-				if ((info[authChar] == 'N' && info[authChar + 1] == 'o' && (info[authChar + 2] == ' ' || info[authChar + 2] == '.'))    //issues are marked by "NO., No. or No "
-					|| (info[authChar] == 'N' && info[authChar + 1] == 'O' && info[authChar + 2] == '.'))
-				{
-					
-					anothertemp= info.substr(authChar + 6, 18);
-					trim(anothertemp);
+			cerr << "Biginfo ---- " << endl << biginfo << endl << "----------- "  << endl << endl;
 
-					if (anothertemp[0] == '.' || anothertemp[0] == ' ')    //gets rid of period or space stored before some dates
-						anothertemp = anothertemp.substr(1, anothertemp.length() - 1);
-
-					book[i].date = capitalize(anothertemp);
-
-					anothertemp = info.substr(authChar, 6);
-					trim(anothertemp);
-					book[i].issue = capitalize(anothertemp);
-
-				}
+			regex dateRegex("([A-Z]+),( [0-9]{4})");
+			if (regex_search(biginfo, match, dateRegex)) {
+				cerr << "DATE Regex Matched: " << match[1].str() << match[2].str() << endl ;
+				book[i].date = capitalize(trim(match[1].str())) + match[2].str();
 			}
 
-			for (int authChar = 0; authChar < biginfo.length(); authChar++)
-			{
-				if ((biginfo[authChar] == 'V' || biginfo[authChar] == 'Y'  )&& (biginfo[authChar + 1] == 'O') && (biginfo[authChar + 2] == 'L' || biginfo[authChar + 2] == 'I'))   //volumes are marked by "VOL" or "VOI"
-				{
-					anothertemp=biginfo.substr(authChar, 8);
-					trim(anothertemp);
-					book[i].volume = anothertemp;
-				}
+			regex volRegex("([VY]O[LI]v?[,.] [IVXLCivxlc0-9]+)");
+			if (regex_search(biginfo, match, volRegex)) {
+				cerr << "VOL Regex Matched: " << match[1].str() << endl ;
+				book[i].volume = trim(match[1].str());
+				findAndReplaceAll(book[i].volume, "VOIv", "VOL");
+				book[i].volume = capitalize(book[i].volume);
+				book[i].volume = fixRomanNumerals(book[i].volume);
 			}
+
+			regex numberRegex("(N[oO][.,]? [IVXLCivxlc0-9]+)");
+			if (regex_search(biginfo, match, numberRegex)) {
+				cerr << "NUM Regex Matched: " << match[1].str() << endl ;
+				book[i].number = capitalize(trim(match[1].str()));
+				book[i].number = fixRomanNumerals(book[i].number);
+			}
+
+			cerr << "BOOK INFO : " << book[i].number << " | " << book[i].date << " | " << book[i].volume << endl;
 		}
 
 		if (isArticle == true)  //only increase i if articles are found
@@ -235,28 +234,33 @@ void doWork() {
 }
 
  
-string regEx(const string &hold) {    //to find authors, use reg expression
+string findAuthor(const string &hold) {    //to find authors, use reg expression
 
-	// cout << "Looking at: ---" << hold << "---" << endl;
+	cerr << "Looking at: ---" << hold << "---" << endl;
 	try {
 		regex r("B[yv] ([a-z.,-^ ]*?) ?(,|\\.$).*?$");
 		regex r2("B[yv] ([a-z.,-^ ]*?)[ .,]?[\n\r]+");
 		regex r3("B[yv] ([a-z.,-^ ]*?)[\n\r]+");
+		
 		smatch match;
 
 		if (regex_search(hold, match, r)) {
+			cerr << "Found R: " << match[1] << endl;
 			return match[1];
-			// cout << "Working: " << hold << " --> " << match[1] << endl;
-		} else if (regex_search(hold, match, r2)) {
+		} 
+		else if (regex_search(hold, match, r2)) {
+			cerr << "Found R2: " << match[1] << endl;
 			return match[1];
-		} else {
+		} 
+		else {
+			cerr << "Found Nothign " << endl;
 			return string("");
-			// cout << " not Working: " << hold << endl;
+			// cerr << " not Working: " << hold << endl;
 		}
 
 	} catch (regex_error& e) {
 		return string("");
-		// cout << " error!" << string("") << endl;
+		// cerr << " error!" << string("") << endl;
 	}
 
 	return string("");
@@ -264,47 +268,104 @@ string regEx(const string &hold) {    //to find authors, use reg expression
 
 	
 void print() {
+	// cout << "Title" << "\t" 
+    // 	<< "Author" << "\t" << "Date" << "\t" 
+	//     << "Volume" << "\t" << "Number" << "\t" << "Issue" << "\t" 
+	// 	<< "StartPageID" << "\t" << "EndPageID" << "\t" 
+	// 	<< "StartPage" << "\t" << "EndPage" <<  endl;
 
 	for (int c = 0; c < i; c++)
 	{
 		if (book[c].date == "")
 		{
-			book[c].date = capitalize(book[c - 1].date);
-			book[c].issue = capitalize(book[c - 1].issue);
+			book[c].date = book[c - 1].date;
+			book[c].issue = book[c - 1].issue;
+			book[c].number = book[c - 1].number;
 		}
 
 		if(book[c].volume == "")
 		book[c].volume = book[c - 1].volume;
 
-		cout << "\"" << c << "\"\t\"" << book[c].header << "\"\t\"" << book[c].author << "\"\t\"" << book[c].date << "\"\t\"" << book[c].volume << "\"\t\"" << book[c].issue << "\"\t\"" << book[c].startPageID << "\"\t\"" << book[c].endPageID << "\"\t\"" << book[c].startPage << "\"\t\"" << book[c].endPage << "\"" <<  endl;
-		// cout << book[i].header << endl;
+		cout << book[c].header << "\t" 
+		     << book[c].author << "\t" << book[c].date << "\t" 
+			 << book[c].volume << "\t" << book[c].number << "\t" << book[c].issue << "\t" 
+			 << book[c].startPageID << "\t" << book[c].endPageID << "\t" 
+			 << book[c].startPage << "\t" << book[c].endPage <<  endl;
+
 	}
 
 }
  
-void trim(string& str)     //trims away new line characters in xml
+//trims away new line characters in xml
+string trim(string str)     
 {
-	regex r("[\r\n]+");
-	
-	str = regex_replace(str, r, " ");
-	// str.erase(remove(str.begin(), str.end(), '\n'), str.end());
+	try {
+		regex rLeft("^[\r\n .]+");
+		str = regex_replace(str, rLeft, "");
+
+		regex rRight("[\r\n .]+$");
+		str = regex_replace(str, rRight, "");
+
+		regex rNewline("[\r\n]+");
+		str = regex_replace(str, rNewline, " ");
+
+		return str;
+	} catch (exception& e) {
+		cerr << "exception caught: " << e.what() << " trying to parse " << str << "\n"; 
+		return "";
+	}
 }
 
-string capitalize(string &str)
+string capitalize(string str)
 {
-
-	if (!str.empty())
-	{
-		str[0] = toupper(str[0]);
-
-		for (size_t i = 1; i < str.length(); ++i)
+	try {
+		if (!str.empty())
 		{
-			str[i] = tolower(str[i]);
-			if (str[i - 1] == ' ' || str[i-1] == '-' || str[i-1] =='.')
-				str[i] = toupper(str[i]);
+			str[0] = toupper(str[0]);
+
+			for (size_t i = 1; i < str.length(); ++i)
+			{
+				str[i] = tolower(str[i]);
+				if (str[i - 1] == ' ' || str[i-1] == '-' || str[i-1] =='.')
+					str[i] = toupper(str[i]);
+			}
 		}
+	} catch (exception& e) {
+		cerr << "exception caught: " << e.what() << "\n"; 
+		return "";
 	}
 
-	
+	return str;
+}
+
+
+void findAndReplaceAll(std::string & data, std::string toSearch, std::string replaceStr)
+{
+	// Get the first occurrence
+	size_t pos = data.find(toSearch);
+ 
+	// Repeat till end is reached
+	while( pos != std::string::npos)
+	{
+		// Replace this occurrence of Sub String
+		data.replace(pos, toSearch.size(), replaceStr);
+		// Get the next occurrence from the current position
+		pos = data.find(toSearch, pos + replaceStr.size());
+	}
+}
+
+string fixRomanNumerals(std::string str) {
+	smatch match;
+
+	regex r("([IVXLCivxlc]{2,})");
+	if (regex_search(str, match, r)) {
+		string u = match[1].str();
+
+		for (size_t i = 1; i < u.length(); ++i) {
+			u[i] = toupper(u[i]);
+		}
+		str = regex_replace(str, r, u);
+	}
+
 	return str;
 }

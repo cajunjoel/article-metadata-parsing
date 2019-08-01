@@ -195,7 +195,7 @@ void doWork() {
 			regex titleRegex(".*?All Rights Reserved. [A-Za-z]+, [0-9]{4}[.,]?(.+)");            //some titles store this information, so weeding it out via regEx
 			// regex titleRegex("(All Rights Reserved. [A-Za-z]+, [0-9]{4})");
 			cerr << "TITLE BEFORE: " << article[counter].header << endl ;
-			if (regex_search article[counter].header, match, titleRegex)) {                    //if found, then remove irrelevant parts that are not title, and store
+			if (regex_search(article[counter].header, match, titleRegex)) {                    //if found, then remove irrelevant parts that are not title, and store
 				cerr << "TITLE Regex Matched: " << match[1].str() << endl ;
 			 article[counter].header = capitalize(trim(match[1].str()));
 			}
@@ -225,16 +225,16 @@ void doWork() {
 			if (regex_search(biginfo, match, volRegex)) {
 				cerr << "VOL Regex Matched: " << match[1].str() << endl ;
 			 article[counter].volume = trim(match[1].str());
-				findAndReplaceAll article[counter].volume, "VOIv", "VOL");
-			 article[counter].volume = capitalize article[counter].volume);
-			 article[counter].volume = fixRomanNumerals article[counter].volume);
+				findAndReplaceAll(article[counter].volume, "VOIv", "VOL");
+			 article[counter].volume = capitalize(article[counter].volume);
+			 article[counter].volume = fixRomanNumerals(article[counter].volume);
 			}
 
 			regex numberRegex("(N[oO][.,]? [IVXLCivxlc0-9]+)");                                          //if regex is matched then capitalize and trim the "number" and fix roman numerals if incorrect
 			if (regex_search(biginfo, match, numberRegex)) {
 				cerr << "NUM Regex Matched: " << match[1].str() << endl ;
 			 article[counter].number = capitalize(trim(match[1].str()));
-			 article[counter].number = fixRomanNumerals article[counter].number);
+			 article[counter].number = fixRomanNumerals(article[counter].number);
 			}
 
 			cerr << "BOOK INFO : " << article[counter].number << " | " << article[counter].date << " | " << article[counter].volume << endl;
@@ -295,14 +295,14 @@ void print() {
 
 	for (int c = 0; c < counter; c++)
 	{
-		if  article[c].date == "")
+		if (article[c].date == "")
 		{
 		 article[c].date = article[c - 1].date;
 		 article[c].issue = article[c - 1].issue;
 		 article[c].number = article[c - 1].number;
 		}
 
-		if article[c].volume == "")
+		if (article[c].volume == "")
 	 article[c].volume = article[c - 1].volume;
 
 		cout << article[c].header << "\t" 

@@ -6,6 +6,7 @@
 /working parser/.vs/test parser/v15
 /.vscode
 Source
-Source.o
-tinyxml2.o
 Source.exe*
+*.txt
+*.xlsx
+*.o

@@ -241,9 +241,9 @@ void doWork() {
 			if (regex_search(biginfo, match, volRegex)) {
 				//cerr << "VOL Regex Matched: " << match[1].str() << endl ;
 			 article[counter].volume = trim(match[1].str());
-				findAndReplaceAll (article[counter].volume, "VOIv", "VOL");
-			 article[counter].volume = capitalize( article[counter].volume);
-			 article[counter].volume = fixRomanNumerals (article[counter].volume);
+				findAndReplaceAll(article[counter].volume, "VOIv", "VOL");
+			 article[counter].volume = capitalize(article[counter].volume);
+			 article[counter].volume = fixRomanNumerals(article[counter].volume);
 			}
 
 			regex numberRegex("(N ?[oO] ?[.,]? [IVXLCivxlc0-9]+)");                                          //if regex is matched then capitalize and trim the "number" and fix roman numerals if incorrect

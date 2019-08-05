@@ -94,10 +94,18 @@ Cycles through XML file to extract the article information (children and sibling
 
 */
 void doWork() {
-
+ //cout << "HERE0" << endl;
 	//iterates through all of child nodes
-	for (XMLNode* child = root->FirstChild(); child != NULL; child = child->NextSibling())            //while child is not null, loop through all the children nodes starting at the first one
+	for (XMLNode* child = root->FirstChild(); child != NULL ; child = child->NextSibling())            //while child is not null, loop through all the children nodes starting at the first one
 	{
+
+		// cout << "HERE1" << endl;
+		//if(child->NextSibling() != NULL)
+		//{cout << "looking at next sibling" << child->NextSibling() << endl;
+
+//		cout << "what is next sibling " << child->NextSibling()->ToElement()->GetText() << endl;
+//		}
+
 		bool isArticle = false;          							//default false until conditions are met
 		smatch match;
 
@@ -106,6 +114,7 @@ void doWork() {
 		{
 		 article[counter].author = child->ToElement()->GetText();
 		}
+
 		// Decide if this is a section header and grab info 
 		if (strcmp(child->Value(), "figure") == 0 || strcmp(child->Value(), "construct") == 0 || strcmp(child->Value(), "table") == 0 
 		    || strcmp(child->Value(), "equation") == 0 || strcmp(child->Value(), "sectionHeader") == 0 
@@ -116,15 +125,17 @@ void doWork() {
 			// cerr << "str: " << str << endl; 
 			int authStart;
 
+
 			XMLElement* sib = child->NextSiblingElement();         //sibling element introduced to loop through
 			// cerr << "str.length(): " << str.length() << endl;
+			 //err << "str: " << str << endl;
 
 			// Extract the author
-			if (sib) {
+			if (sib!=NULL) {
 				if (str.length() > 3) {     					//to keep loop going (so the length value is never negative)
-					for (authStart = 0; authStart < (str.length() - 3) ; authStart++)
+					for (authStart = 0; authStart < (str.length()-3 ) ; authStart++)  
 					{
-						// cerr << "here0" << endl;
+						 //cerr << "here0" << endl;
 						if (str[authStart] == 'B' 
 							&& (str[authStart + 1] == 'y' || str[authStart + 1] == 'v') 
 							&& str[authStart + 2] == ' ' 
@@ -147,10 +158,10 @@ void doWork() {
 
 					}// this works
 
-				}
-
+				}//out << "HERE?" << endl;
 				for (int headstart = 0; headstart < tempstr.length(); headstart++)
-				{																		//double checking to make sure only uppercase headers that are an article are stored
+				{								
+													//double checking to make sure only uppercase headers that are an article are stored
 					if (isupper(tempstr[headstart])&& (isupper(tempstr[headstart+1]) || tempstr[headstart+1] == ' ' ) && isArticle==true)   //if at least first two characters are uppercase and it is an article, store
 					{
 						tempstr = tempstr.substr(headstart, authStart);         //from start of Cap letters to the start of the "By"
@@ -167,16 +178,18 @@ void doWork() {
 			
 				if (strcmp(sib->Value(), "bodyText") == 0)
 				{
+					// cout << "HERE" << endl;
 					temps = child->NextSiblingElement()->GetText();              //store bodytext, then only 75 characters of that into s
 					s = temps.substr(0, 75);
-
+	
 					for (int authChar = 0; authChar < s.length(); authChar++)  //if author is in the body, it will be within the first 75 characters
 					{
 						if (s[authChar] == 'B' && (s[authChar + 1] == 'y'))
 						{
 							string hold = s.substr(authChar, 25);
 
-						 article[counter].author = capitalize(trim(findAuthor(hold)));   //runs thru capitalize, trim, findAuthor functions
+						 article[counter].author = capitalize(trim(findAuthor(hold))); 
+						   //runs thru capitalize, trim, findAuthor functions
 						 article[counter].header = capitalize(trim(str));                //runs thru capitalize and trim funcitions
 
 						 article[counter].startPageID = child->ToElement()->Attribute("page_id");      //same as above
@@ -191,19 +204,22 @@ void doWork() {
 				}
 				
 			}
+ 
 
 			regex titleRegex(".*?All Rights Reserved. [A-Za-z]+, [0-9]{4}[.,]?(.+)");            //some titles store this information, so weeding it out via regEx
 			// regex titleRegex("(All Rights Reserved. [A-Za-z]+, [0-9]{4})");
-			cerr << "TITLE BEFORE: " << article[counter].header << endl ;
-			if (regex_search article[counter].header, match, titleRegex)) {                    //if found, then remove irrelevant parts that are not title, and store
-				cerr << "TITLE Regex Matched: " << match[1].str() << endl ;
+			//cerr << "TITLE BEFORE: " << article[counter].header << endl ;
+			if (regex_search (article[counter].header, match, titleRegex)) {                    //if found, then remove irrelevant parts that are not title, and store
+				//cerr << "TITLE Regex Matched: " << match[1].str() << endl ;
 			 article[counter].header = capitalize(trim(match[1].str()));
+			  //cerr << "here0" << endl;
 			}
 			// article[counter].header = fixRomanNumerals article[counter].header);
-
+ 
 			//when the next section header begins, the last article ends // so end page # and page id of the previous article is the beginning of the next
 			if (counter >= 1 && isArticle)
 			{
+			
 			 article[counter-1].endPage = child->ToElement()->Attribute("page_num");
 			 article[counter-1].endPageID = child->ToElement()->Attribute("page_id");
 			}
@@ -213,36 +229,40 @@ void doWork() {
 		if (strcmp(child->Value(), "bodyText") == 0 || strcmp(child->Value(), "keyword") == 0 || strcmp(child->Value(), "construct") == 0)   //sections where date, issue and vol are
 		{
 			string biginfo = child->ToElement()->GetText();
-			cerr << "Biginfo ---- " << endl << biginfo << endl << "----------- "  << endl << endl;
-
+			//cerr << "Biginfo ---- " << endl << biginfo << endl << "----------- "  << endl << endl;
+ //cerr << "where we stop "  << child->Value() << endl;
 			regex dateRegex("([A-Z]+),( [0-9]{4})");
 			if (regex_search(biginfo, match, dateRegex)) {
-				cerr << "DATE Regex Matched: " << match[1].str() << match[2].str() << endl ;
+				//cerr << "DATE Regex Matched: " << match[1].str() << match[2].str() << endl ;
 			 article[counter].date = capitalize(trim(match[1].str())) + match[2].str();                         //if regex is matched then capitalize, trim and concatenate the month and year
 			}
 
-			regex volRegex("([VY]O[LI]v?[,.] [IVXLCivxlc0-9]+)");                                         //if regex is matched then trim volume, if volume is not "VOL" then find and replace with "VOL" and fix wonky roman numerals
+			regex volRegex("([VY] ?[Oo] ?[LIR]v?[,.] [IVXLCivxlc0-9]+)");                                         //if regex is matched then trim volume, if volume is not "VOL" then find and replace with "VOL" and fix wonky roman numerals
 			if (regex_search(biginfo, match, volRegex)) {
-				cerr << "VOL Regex Matched: " << match[1].str() << endl ;
+				//cerr << "VOL Regex Matched: " << match[1].str() << endl ;
 			 article[counter].volume = trim(match[1].str());
-				findAndReplaceAll article[counter].volume, "VOIv", "VOL");
-			 article[counter].volume = capitalize article[counter].volume);
-			 article[counter].volume = fixRomanNumerals article[counter].volume);
+				findAndReplaceAll (article[counter].volume, "VOIv", "VOL");
+			 article[counter].volume = capitalize( article[counter].volume);
+			 article[counter].volume = fixRomanNumerals (article[counter].volume);
 			}
 
-			regex numberRegex("(N[oO][.,]? [IVXLCivxlc0-9]+)");                                          //if regex is matched then capitalize and trim the "number" and fix roman numerals if incorrect
+			regex numberRegex("(N ?[oO] ?[.,]? [IVXLCivxlc0-9]+)");                                          //if regex is matched then capitalize and trim the "number" and fix roman numerals if incorrect
 			if (regex_search(biginfo, match, numberRegex)) {
-				cerr << "NUM Regex Matched: " << match[1].str() << endl ;
+				//cerr << "NUM Regex Matched: " << match[1].str() << endl ;
 			 article[counter].number = capitalize(trim(match[1].str()));
-			 article[counter].number = fixRomanNumerals article[counter].number);
+			 article[counter].number = fixRomanNumerals(article[counter].number);
 			}
 
-			cerr << "BOOK INFO : " << article[counter].number << " | " << article[counter].date << " | " << article[counter].volume << endl;
+			//cerr << "BOOK INFO : " << article[counter].number << " | " << article[counter].date << " | " << article[counter].volume << endl;
 		}
+
 
 		if (isArticle == true)  //only increase counter if articles are found
 			counter++;
+
 	}
+	 
+	// cout << "HERE" << endl;
 }
 
  /*
@@ -253,7 +273,7 @@ void doWork() {
   */
 string findAuthor(const string &hold) {    //to find authors, use reg expression
 
-	cerr << "Looking at: ---" << hold << "---" << endl;
+	//cerr << "Looking at: ---" << hold << "---" << endl;
 	try {
 		regex r("B[yv] ([a-z.,-^ ]*?) ?(,|\\.$).*?$");
 		regex r2("B[yv] ([a-z.,-^ ]*?)[ .,]?[\n\r]+");
@@ -262,22 +282,22 @@ string findAuthor(const string &hold) {    //to find authors, use reg expression
 		smatch match;
 
 		if (regex_search(hold, match, r)) {
-			cerr << "Found R: " << match[1] << endl;
+	//		cerr << "Found R: " << match[1] << endl;
 			return match[1];
 		} 
 		else if (regex_search(hold, match, r2)) {
-			cerr << "Found R2: " << match[1] << endl;
+	//		cerr << "Found R2: " << match[1] << endl;
 			return match[1];
 		} 
 		else {
-			cerr << "Found Nothign " << endl;
+			//cerr << "Found Nothign " << endl;
 			return string("");
-			// cerr << " not Working: " << hold << endl;
+	//		 cerr << " not Working: " << hold << endl;
 		}
 
 	} catch (regex_error& e) {
 		return string("");
-		// cerr << " error!" << string("") << endl;
+		 cerr << " error!" << string("") << endl;
 	}
 
 	return string("");
@@ -287,22 +307,26 @@ string findAuthor(const string &hold) {    //to find authors, use reg expression
 print() prints out all of the article metadata. if there are blanks in the volume, date, issue or number, it just copies from the previous entries until one is ecountered	
  */
 void print() {
-	// cout << "Title" << "\t" 
+	// cout << "Title" << "\t" <<endl;
     // 	<< "Author" << "\t" << "Date" << "\t" 
 	//     << "Volume" << "\t" << "Number" << "\t" << "Issue" << "\t" 
 	// 	<< "StartPageID" << "\t" << "EndPageID" << "\t" 
 	// 	<< "StartPage" << "\t" << "EndPage" <<  endl;
 
+cout << "HERE1" << endl;
 	for (int c = 0; c < counter; c++)
 	{
-		if  article[c].date == "")
+//cout << "Article c: " << article[c] << endl;
+// cout << "Article c-1: " << article[c - 1] << endl;
+
+		if (article[c].date == "" && c>0)
 		{
 		 article[c].date = article[c - 1].date;
 		 article[c].issue = article[c - 1].issue;
 		 article[c].number = article[c - 1].number;
 		}
 
-		if article[c].volume == "")
+		if (article[c].volume == "" && c>0)
 	 article[c].volume = article[c - 1].volume;
 
 		cout << article[c].header << "\t" 
@@ -317,12 +341,13 @@ void print() {
  
 /*
 
-trin(string str) trims away new line and extra blank characters in xml
+trim(string str) trims away new line and extra blank characters in xml
 
  */
 string trim(string str)     
 {
 	try {
+
 		regex rLeft("^[\r\n .]+");
 		str = regex_replace(str, rLeft, "");    //if there are spaces before the first word
 
@@ -337,6 +362,7 @@ string trim(string str)
 		cerr << "exception caught: " << e.what() << " trying to parse " << str << "\n"; 
 		return "";
 	}
+	
 }
 /*
 
@@ -345,6 +371,7 @@ capitalize(string str) capitalizes the first letter of each word and puts every 
  */
 string capitalize(string str)
 {
+	
 	try {
 		if (!str.empty())
 		{
@@ -353,7 +380,7 @@ string capitalize(string str)
 			for (size_t counter = 1; counter < str.length(); ++counter)     //at second letter on until next word, replaces letters with lower case ones
 			{
 				str[counter] = tolower(str[counter]);
-				if (str[counter - 1] == ' ' || str[counter-1] == '-' || str[counter-1] =='.')    //if there is a period or space before the letter, it is a new word and capitalize it
+				if (str[counter - 1] == ' ' || str[counter-1] == '-' || str[counter-1] =='.')  //if there is a period or space before the letter, it is a new word and capitalize it
 					str[counter] = toupper(str[counter]);
 			}
 		}
@@ -361,7 +388,7 @@ string capitalize(string str)
 		cerr << "exception caught: " << e.what() << "\n"; 
 		return "";
 	}
-
+	cout << "i am confuseD "<< str <<endl;
 	return str;
 }
 

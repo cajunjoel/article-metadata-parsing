@@ -10,3 +10,4 @@ Source.exe*
 *.txt
 *.xlsx
 *.o
+*.stackdump

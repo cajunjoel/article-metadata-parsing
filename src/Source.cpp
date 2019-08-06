@@ -176,7 +176,7 @@ void doWork() {
 				string temps;
 				string s;
 			
-				if (strcmp(sib->Value(), "bodyText") == 0)
+				if (strcmp(sib->Value(), "bodyText") == 0 ||strcmp(sib->Value(), "construct") == 0)
 				{
 					// cout << "HERE" << endl;
 					temps = child->NextSiblingElement()->GetText();              //store bodytext, then only 75 characters of that into s
@@ -229,15 +229,15 @@ void doWork() {
 		if (strcmp(child->Value(), "bodyText") == 0 || strcmp(child->Value(), "keyword") == 0 || strcmp(child->Value(), "construct") == 0)   //sections where date, issue and vol are
 		{
 			string biginfo = child->ToElement()->GetText();
-			//cerr << "Biginfo ---- " << endl << biginfo << endl << "----------- "  << endl << endl;
+			//cerr << "type: " << child->Value() << " Biginfo ---- " << endl << biginfo << endl << "----------- "  << endl << endl;
  //cerr << "where we stop "  << child->Value() << endl;
-			regex dateRegex("([A-Z]+),( [0-9]{4})");
+			regex dateRegex("([A ?-Z ?]+),( [0-9]{4})");
 			if (regex_search(biginfo, match, dateRegex)) {
 				//cerr << "DATE Regex Matched: " << match[1].str() << match[2].str() << endl ;
 			 article[counter].date = capitalize(trim(match[1].str())) + match[2].str();                         //if regex is matched then capitalize, trim and concatenate the month and year
 			}
 
-			regex volRegex("([VY] ?[Oo] ?[LIR]v?[,.] [IVXLCivxlc0-9]+)");                                         //if regex is matched then trim volume, if volume is not "VOL" then find and replace with "VOL" and fix wonky roman numerals
+			regex volRegex("([VYM] ?[Oo] ?[LIR]v?[,.] [IVXLCivxlc0-9]+)");                                         //if regex is matched then trim volume, if volume is not "VOL" then find and replace with "VOL" and fix wonky roman numerals
 			if (regex_search(biginfo, match, volRegex)) {
 				//cerr << "VOL Regex Matched: " << match[1].str() << endl ;
 			 article[counter].volume = trim(match[1].str());
@@ -313,7 +313,7 @@ void print() {
 	// 	<< "StartPageID" << "\t" << "EndPageID" << "\t" 
 	// 	<< "StartPage" << "\t" << "EndPage" <<  endl;
 
-cout << "HERE1" << endl;
+//cout << "HERE1" << endl;
 	for (int c = 0; c < counter; c++)
 	{
 //cout << "Article c: " << article[c] << endl;
@@ -388,7 +388,7 @@ string capitalize(string str)
 		cerr << "exception caught: " << e.what() << "\n"; 
 		return "";
 	}
-	cout << "i am confuseD "<< str <<endl;
+
 	return str;
 }
 

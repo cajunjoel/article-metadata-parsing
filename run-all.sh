@@ -1,152 +1,154 @@
-#run with:
+#run with: 
 # sh run-all.sh
+rm avicultural.txt
 
-./Source data/bhl-item-101529.xml >> avicultural.txt
-./Source data/bhl-item-101530.xml >> avicultural.txt
-./Source data/bhl-item-101531.xml >> avicultural.txt
-./Source data/bhl-item-101539.xml >> avicultural.txt
-./Source data/bhl-item-101540.xml >> avicultural.txt
-./Source data/bhl-item-101541.xml >> avicultural.txt
-./Source data/bhl-item-101578.xml >> avicultural.txt
-./Source data/bhl-item-101581.xml >> avicultural.txt
-./Source data/bhl-item-101587.xml >> avicultural.txt
-./Source data/bhl-item-101588.xml >> avicultural.txt
-./Source data/bhl-item-101614.xml >> avicultural.txt
-./Source data/bhl-item-101615.xml >> avicultural.txt
-./Source data/bhl-item-101616.xml >> avicultural.txt
-./Source data/bhl-item-101617.xml >> avicultural.txt
-./Source data/bhl-item-101704.xml >> avicultural.txt
-./Source data/bhl-item-101758.xml >> avicultural.txt
-./Source data/bhl-item-102962.xml >> avicultural.txt
-./Source data/bhl-item-103762.xml >> avicultural.txt
-./Source data/bhl-item-252444.xml >> avicultural.txt
-./Source data/bhl-item-252460.xml >> avicultural.txt
-./Source data/bhl-item-252463.xml >> avicultural.txt
-./Source data/bhl-item-252489.xml >> avicultural.txt
-./Source data/bhl-item-252490.xml >> avicultural.txt
-./Source data/bhl-item-252582.xml >> avicultural.txt
-./Source data/bhl-item-252632.xml >> avicultural.txt
-./Source data/bhl-item-252664.xml >> avicultural.txt
-./Source data/bhl-item-252701.xml >> avicultural.txt
-./Source data/bhl-item-252703.xml >> avicultural.txt
-./Source data/bhl-item-252715.xml >> avicultural.txt
-./Source data/bhl-item-252719.xml >> avicultural.txt
-./Source data/bhl-item-252816.xml >> avicultural.txt
-./Source data/bhl-item-252871.xml >> avicultural.txt
-./Source data/bhl-item-252872.xml >> avicultural.txt
-./Source data/bhl-item-252876.xml >> avicultural.txt
-./Source data/bhl-item-252886.xml >> avicultural.txt
-./Source data/bhl-item-252890.xml >> avicultural.txt
-./Source data/bhl-item-253061.xml >> avicultural.txt
-./Source data/bhl-item-253062.xml >> avicultural.txt
-./Source data/bhl-item-253063.xml >> avicultural.txt
-./Source data/bhl-item-253064.xml >> avicultural.txt
-./Source data/bhl-item-253086.xml >> avicultural.txt
-./Source data/bhl-item-253087.xml >> avicultural.txt
-./Source data/bhl-item-253089.xml >> avicultural.txt
-./Source data/bhl-item-253090.xml >> avicultural.txt
-./Source data/bhl-item-253093.xml >> avicultural.txt
-./Source data/bhl-item-253094.xml >> avicultural.txt
-./Source data/bhl-item-253095.xml >> avicultural.txt
-./Source data/bhl-item-253115.xml >> avicultural.txt
-./Source data/bhl-item-253116.xml >> avicultural.txt
-./Source data/bhl-item-253120.xml >> avicultural.txt
-./Source data/bhl-item-253125.xml >> avicultural.txt
-./Source data/bhl-item-253126.xml >> avicultural.txt
-./Source data/bhl-item-253127.xml >> avicultural.txt
-./Source data/bhl-item-253128.xml >> avicultural.txt
-./Source data/bhl-item-253130.xml >> avicultural.txt
-./Source data/bhl-item-253140.xml >> avicultural.txt
-./Source data/bhl-item-253141.xml >> avicultural.txt
-./Source data/bhl-item-253142.xml >> avicultural.txt
-./Source data/bhl-item-253143.xml >> avicultural.txt
-./Source data/bhl-item-253145.xml >> avicultural.txt
-./Source data/bhl-item-253154.xml >> avicultural.txt
-./Source data/bhl-item-253155.xml >> avicultural.txt
-./Source data/bhl-item-253189.xml >> avicultural.txt
-./Source data/bhl-item-253190.xml >> avicultural.txt
-./Source data/bhl-item-253191.xml >> avicultural.txt
-./Source data/bhl-item-253192.xml >> avicultural.txt
-./Source data/bhl-item-253193.xml >> avicultural.txt
-./Source data/bhl-item-253194.xml >> avicultural.txt
-./Source data/bhl-item-253195.xml >> avicultural.txt
-./Source data/bhl-item-253200.xml >> avicultural.txt
-./Source data/bhl-item-253201.xml >> avicultural.txt
-./Source data/bhl-item-253202.xml >> avicultural.txt
-./Source data/bhl-item-253205.xml >> avicultural.txt
-./Source data/bhl-item-253206.xml >> avicultural.txt
-./Source data/bhl-item-253210.xml >> avicultural.txt
-./Source data/bhl-item-253211.xml >> avicultural.txt
-./Source data/bhl-item-253223.xml >> avicultural.txt
-./Source data/bhl-item-253224.xml >> avicultural.txt
-./Source data/bhl-item-253225.xml >> avicultural.txt
-./Source data/bhl-item-253226.xml >> avicultural.txt
-./Source data/bhl-item-253275.xml >> avicultural.txt
-./Source data/bhl-item-253276.xml >> avicultural.txt
-./Source data/bhl-item-253280.xml >> avicultural.txt
-./Source data/bhl-item-253295.xml >> avicultural.txt
-./Source data/bhl-item-253391.xml >> avicultural.txt
-./Source data/bhl-item-253392.xml >> avicultural.txt
-./Source data/bhl-item-253397.xml >> avicultural.txt
-./Source data/bhl-item-253422.xml >> avicultural.txt
-./Source data/bhl-item-253425.xml >> avicultural.txt
-./Source data/bhl-item-253426.xml >> avicultural.txt
-./Source data/bhl-item-253448.xml >> avicultural.txt
-./Source data/bhl-item-253457.xml >> avicultural.txt
-./Source data/bhl-item-253458.xml >> avicultural.txt
-./Source data/bhl-item-253459.xml >> avicultural.txt
-./Source data/bhl-item-253460.xml >> avicultural.txt
-./Source data/bhl-item-253468.xml >> avicultural.txt
-./Source data/bhl-item-253469.xml >> avicultural.txt
-./Source data/bhl-item-253754.xml >> avicultural.txt
-./Source data/bhl-item-253759.xml >> avicultural.txt
-./Source data/bhl-item-253770.xml >> avicultural.txt
-./Source data/bhl-item-253784.xml >> avicultural.txt
-./Source data/bhl-item-253794.xml >> avicultural.txt
-./Source data/bhl-item-253795.xml >> avicultural.txt
-./Source data/bhl-item-253807.xml >> avicultural.txt
-./Source data/bhl-item-253808.xml >> avicultural.txt
-./Source data/bhl-item-253809.xml >> avicultural.txt
-./Source data/bhl-item-253810.xml >> avicultural.txt
-./Source data/bhl-item-253821.xml >> avicultural.txt
-./Source data/bhl-item-253830.xml >> avicultural.txt
-./Source data/bhl-item-253849.xml >> avicultural.txt
-./Source data/bhl-item-253860.xml >> avicultural.txt
-./Source data/bhl-item-254180.xml >> avicultural.txt
-./Source data/bhl-item-254181.xml >> avicultural.txt
-./Source data/bhl-item-254311.xml >> avicultural.txt
-./Source data/bhl-item-254312.xml >> avicultural.txt
-./Source data/bhl-item-254510.xml >> avicultural.txt
-./Source data/bhl-item-254524.xml >> avicultural.txt
-./Source data/bhl-item-254533.xml >> avicultural.txt
-./Source data/bhl-item-254539.xml >> avicultural.txt
-./Source data/bhl-item-254543.xml >> avicultural.txt
-./Source data/bhl-item-254643.xml >> avicultural.txt
-./Source data/bhl-item-254661.xml >> avicultural.txt
-./Source data/bhl-item-254699.xml >> avicultural.txt
-./Source data/bhl-item-255294.xml >> avicultural.txt
-./Source data/bhl-item-255550.xml >> avicultural.txt
-./Source data/bhl-item-255551.xml >> avicultural.txt
-./Source data/bhl-item-257321.xml >> avicultural.txt
-./Source data/bhl-item-257494.xml >> avicultural.txt
-./Source data/bhl-item-258537.xml >> avicultural.txt
-./Source data/bhl-item-266331.xml >> avicultural.txt
-./Source data/bhl-item-266332.xml >> avicultural.txt
-./Source data/bhl-item-266342.xml >> avicultural.txt
-./Source data/bhl-item-266343.xml >> avicultural.txt
-./Source data/bhl-item-266348.xml >> avicultural.txt
-./Source data/bhl-item-266363.xml >> avicultural.txt
-./Source data/bhl-item-266364.xml >> avicultural.txt
-./Source data/bhl-item-266384.xml >> avicultural.txt
-./Source data/bhl-item-266445.xml >> avicultural.txt
-./Source data/bhl-item-266448.xml >> avicultural.txt
-./Source data/bhl-item-268114.xml >> avicultural.txt
-./Source data/bhl-item-36807.xml >> avicultural.txt
-./Source data/bhl-item-36834.xml >> avicultural.txt
-./Source data/bhl-item-36856.xml >> avicultural.txt
-./Source data/bhl-item-36863.xml >> avicultural.txt
-./Source data/bhl-item-38505.xml >> avicultural.txt
-./Source data/bhl-item-38506.xml >> avicultural.txt
-./Source data/bhl-item-38518.xml >> avicultural.txt
-./Source data/bhl-item-38521.xml >> avicultural.txt
-./Source data/bhl-item-39481.xml >> avicultural.txt
+./Source data/bhl-item-101529.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-101530.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-101531.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-101539.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-101540.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-101541.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-101578.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-101581.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-101587.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-101588.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-101614.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-101615.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-101616.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-101617.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-101704.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-101758.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-102962.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-103762.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-252444.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-252460.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-252463.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-252489.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-252490.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-252582.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-252632.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-252664.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-252701.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-252703.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-252715.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-252719.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-252816.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-252871.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-252872.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-252876.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-252886.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-252890.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-253061.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-253062.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-253063.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-253064.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-253086.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-253087.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-253089.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-253090.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-253093.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-253094.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-253095.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-253115.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-253116.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-253120.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-253125.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-253126.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-253127.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-253128.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-253130.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-253140.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-253141.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-253142.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-253143.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-253145.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-253154.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-253155.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-253189.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-253190.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-253191.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-253192.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-253193.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-253194.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-253195.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-253200.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-253201.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-253202.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-253205.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-253206.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-253210.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-253211.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-253223.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-253224.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-253225.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-253226.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-253275.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-253276.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-253280.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-253295.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-253391.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-253392.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-253397.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-253422.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-253425.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-253426.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-253448.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-253457.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-253458.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-253459.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-253460.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-253468.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-253469.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-253754.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-253759.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-253770.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-253784.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-253794.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-253795.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-253807.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-253808.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-253809.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-253810.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-253821.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-253830.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-253849.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-253860.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-254180.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-254181.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-254311.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-254312.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-254510.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-254524.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-254533.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-254539.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-254543.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-254643.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-254661.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-254699.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-255294.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-255550.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-255551.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-257321.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-257494.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-258537.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-266331.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-266332.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-266342.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-266343.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-266348.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-266363.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-266364.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-266384.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-266445.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-266448.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-268114.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-36807.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-36834.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-36856.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-36863.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-38505.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-38506.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-38518.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-38521.xml >> avicultural.txt 2> /dev/null
+./Source data/bhl-item-39481.xml >> avicultural.txt 2> /dev/null
+ 2> /dev/null

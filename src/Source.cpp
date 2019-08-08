@@ -16,6 +16,7 @@ void print();
 string trim(string str);
 string capitalize(string str);
 void findAndReplaceAll(string & data, string toSearch, string replaceStr);
+string balanceQuotes(string data);
 string fixRomanNumerals(string str);
 
 int counter = 0;    //starts counter for number of articles
@@ -62,6 +63,8 @@ loadFile(int argc, char* argv[]) checks the arguments passed by the user, and if
 
  */
 void loadFile(int argc, char* argv[]) {
+
+	cerr << "Processing " << argv[1] << "... " << endl;
 
 	XMLDocument doc;
 	if(argc>0){                  							//if the user enters at least one argument
@@ -313,12 +316,8 @@ void print() {
 	// 	<< "StartPageID" << "\t" << "EndPageID" << "\t" 
 	// 	<< "StartPage" << "\t" << "EndPage" <<  endl;
 
-//cout << "HERE1" << endl;
 	for (int c = 0; c < counter; c++)
 	{
-//cout << "Article c: " << article[c] << endl;
-// cout << "Article c-1: " << article[c - 1] << endl;
-
 		if (article[c].date == "" && c>0)
 		{
 		 article[c].date = article[c - 1].date;
@@ -327,7 +326,12 @@ void print() {
 		}
 
 		if (article[c].volume == "" && c>0)
-	 article[c].volume = article[c - 1].volume;
+	 		article[c].volume = article[c - 1].volume;
+
+		findAndReplaceAll(article[c].header, "&apos;", "'");
+		findAndReplaceAll(article[c].header, "''", "\"");
+		findAndReplaceAll(article[c].header, "&quot;", "\"");
+		article[c].header = balanceQuotes(article[c].header);
 
 		cout << article[c].header << "\t" 
 		     << article[c].author << "\t" << article[c].date << "\t" 
@@ -433,4 +437,17 @@ string fixRomanNumerals(string str) {
 	}
 
 	return str;
+}
+
+string balanceQuotes(string data) {
+  int count = 0;
+  char quote = '"';
+  for (int i = 0; i < data.size(); i++)
+    if (data[i] == quote) count++;
+
+	if (count % 2 == 1){
+		data = "\"" + data;
+	} 
+
+	return data;
 }

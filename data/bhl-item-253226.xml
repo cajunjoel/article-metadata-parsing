@@ -1401,12 +1401,12 @@ Also included is census information from the International Zoo Yearbook (hereaft
 </page>
 <figure confidence="0.902965913793104" page_id="56266305"  page_num="126" year="" vol="">
 JONES - GENUS PICATHARTES
-T3 &lt;L&gt;
-&lt;L&gt; #
+T3 &amp;lt;L&gt;
+&amp;lt;L&gt; #
 O G
-&lt;L&gt; #
+&amp;lt;L&gt; #
 ~ o
-O &lt;3
+O &amp;lt;3
 # #
 c x
 g c
@@ -1419,7 +1419,7 @@ G y
 X X
 G O
 &amp; y
-&lt;/3 G
+&amp;lt;/3 G
 G O
 03 X
 X ^
@@ -1447,14 +1447,14 @@ B #
 o
 CD
 x
-&lt;D
+&amp;lt;D
 O
 ^H
 G
 S S
 21 G
 X i--&gt;
-&lt;D
+&amp;lt;D
 03 H
 O g
 Oh Jh
@@ -1469,13 +1469,13 @@ G
 #H X
  |g
 2
-&lt;S
+&amp;lt;S
 CD
 a
 G
 G
 X
-&lt;D
+&amp;lt;D
 X
 y
 G
@@ -1595,7 +1595,7 @@ G _
 n G (D
 x e
 x ^ 2
-y * &lt;
+y * &amp;lt;
 o
 N
 G
@@ -1669,7 +1669,7 @@ C/3 tn
 3 03
 c" cd
 C C
-&lt;D &lt;D
+&amp;lt;D &amp;lt;D
 O 03
 h M
 KS
@@ -1681,7 +1681,7 @@ N PQ S
 e PQ ^
 " G 5
 &quot;O 22 T3
-O g &lt;U
+O g &amp;lt;U
 hU^
 0X3 0
 d e# d
@@ -1716,7 +1716,7 @@ g2
 o
 X
 03
-&lt;D
+&amp;lt;D
 -S
 1
 d
@@ -1735,7 +1735,7 @@ r-
 03
 r-
 03
-i--&lt;
+i--&amp;lt;
 </figure>
 <page confidence="0.72869" page_id="56266305"  page_num="126" year="" vol="">
 43
@@ -1771,7 +1771,7 @@ CL,
 Q
 oo
 3
-&lt;Z3
+&amp;lt;Z3
 (c)
 </figure>
 <page confidence="0.787976" page_id="56266305"  page_num="126" year="" vol="">
@@ -1787,7 +1787,7 @@ SCh
 (c)
 c(c)
 cx
-&lt;
+&amp;lt;
 G-
 O
 o
@@ -1798,7 +1798,7 @@ T-!
 hS
 ed
 #
-&lt;N
+&amp;lt;N
 "
 CO
 1
@@ -1806,7 +1806,7 @@ CO
 g h u
 S " r2
 C /3 03 $--I
-"=&lt; "=&lt; r ^
+"=&amp;lt; "=&amp;lt; r ^
 ^ T) -o J
 o
 "SS tH o o
@@ -1840,7 +1840,7 @@ M -M
 S S
 a #
 Oi Om
-&lt; &lt;
+&amp;lt; &amp;lt;
 o o
 Ala
 PM
@@ -1849,7 +1849,7 @@ r- r-&gt;
 os os
 &amp;o m
 3 3
-&lt; &lt;
+&amp;lt; &amp;lt;
 Q
 O (c)
 N hS
@@ -1869,7 +1869,7 @@ o &quot;O o &quot;d
 O
 E^N 13
 ^ #
-&lt;-&gt; 3
+&amp;lt;-&gt; 3
 O 1-9
 tn eo
 -o
@@ -1997,13 +1997,13 @@ o|
 &apos;S
 ,p
 cm
--d &lt;p
+-d &amp;lt;p
 0 )
 2
 -d
 &amp;H 03
 fe 2
-&lt;D
+&amp;lt;D
 ca
 ed
 cd
@@ -2020,7 +2020,7 @@ Os
 r~-
 OS
 T jS
-&lt;2
+&amp;lt;2
 "n
 cm
 p p
@@ -2048,7 +2048,7 @@ o - p
 * . Cv3
 CNS O,
 Si
-&lt;" S
+&amp;lt;" S
 if
 * a
 kN '{3
@@ -2122,7 +2122,7 @@ CO
 o
 X
 a
-&lt;N
+&amp;lt;N
 oj
 X
 X
@@ -2152,7 +2152,7 @@ X
 G
 3
 X
-&lt;N
+&amp;lt;N
 O
 O
 c 4
@@ -2177,7 +2177,7 @@ G
 3
 X
 CO
-&lt;N
+&amp;lt;N
 oo
 ON
 oo
@@ -2204,9 +2204,9 @@ ts
 ON
 00
 ON
-S-&lt;
+S-&amp;lt;
 X
-&lt;
+&amp;lt;
 &quot;O
 2
 &gt;
@@ -2215,7 +2215,7 @@ a
 NO
 o
 05
-&lt;D
+&amp;lt;D
 a
 M
 c
@@ -2226,7 +2226,7 @@ a
 NO
 bJ)
 3
-&lt;
+&amp;lt;
 a
 X
 G
@@ -2259,7 +2259,7 @@ o
 CN
 &apos;o
 X
-&lt;N
+&amp;lt;N
 X
 X
 X
@@ -2290,7 +2290,7 @@ C/5 C/5
 G 3
 CO CO
 C G
-&lt;D 4&gt;
+&amp;lt;D 4&gt;
 O O
 X X
 N N
@@ -2302,7 +2302,7 @@ d (R) &quot;d
 * o o
 O G
 -S  |.S
-_&lt; T3 &gt;
+_&amp;lt; T3 &gt;
 * -- G
 O * a)
 O ^ &quot;O
@@ -2313,7 +2313,7 @@ NO
 i&quot;- on
 ON
 7 el
-&lt;
+&amp;lt;
 *s.l
 t ^
 d 1 S
@@ -2331,7 +2331,7 @@ NO NO
 r&quot; r-
 On ON
 X X
-&lt; &lt;
+&amp;lt; &amp;lt;
 O NT)
 o &gt;
 3 I S
@@ -2350,7 +2350,7 @@ T--I ON
 3* G
 S 5
 x .2
---&lt; &quot;O
+--&amp;lt; &quot;O
 d a
 d Q
 o o
@@ -2366,13 +2366,13 @@ N N
 tS IS
 a a
 X X
-CO i--&lt;
+CO i--&amp;lt;
 X3
 X.
 X
 Ct5
 a
-&lt;J1
+&amp;lt;J1
 o
 X
 X
@@ -2406,7 +2406,7 @@ A
 &amp;
 S
 X
-&lt;u
+&amp;lt;u
 X
 T--I
 r-
@@ -2438,7 +2438,7 @@ d d d d ,s
 <equation confidence="0.968307142857143" page_id="56266308"  page_num="129" year="" vol="">
 ca M "3 M
 O
-&lt;D
+&amp;lt;D
 O
 o --&apos;
 (c) -O
@@ -2503,7 +2503,7 @@ bO
 (X)
 OO
 OO
-&lt;
+&amp;lt;
 GO
 CD
 3
@@ -2517,7 +2517,7 @@ NO
 fi
 ca
 O
-&lt;u
+&amp;lt;u
 CO
 ca
 ca
@@ -2528,8 +2528,8 @@ OJ
 e3
 s
 -(c) -o
-2 &lt;u
-&lt;N Jtj
+2 &amp;lt;u
+&amp;lt;N Jtj
 d 3
 o U
 o o
@@ -2554,7 +2554,7 @@ d
 eg
 C
 d
-&lt;5
+&amp;lt;5
 ed
 #
 d
@@ -2598,12 +2598,12 @@ On On
 d
 d
 3
-&lt; &lt;
+&amp;lt; &amp;lt;
 "2 33
 5 "
-&lt;
-&lt;
-&lt;
+&amp;lt;
+&amp;lt;
+&amp;lt;
 1
 ON On
 &gt;--i
@@ -2618,7 +2618,7 @@ Ph
 S |
 i2 -3
 33
-&lt;D
+&amp;lt;D
 43 d S3
 J-8 1-8 I
 5 &apos;-3 ! =3 I
@@ -2657,7 +2657,7 @@ c3
 -O
 d
 cd
-&lt;d
+&amp;lt;d
 o (c)
 tS 3
 1 S
@@ -2683,10 +2683,10 @@ s S
 o O
 \0x25A0is o
 3 N
-&lt;3 o
+&amp;lt;3 o
 On O
 " N
-&lt;D ^
+&amp;lt;D ^
 " g
 \0x25A0s *S
 (c) o

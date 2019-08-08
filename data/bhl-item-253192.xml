@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <algorithms version="110505">
 <equation confidence="0.4982296" page_id="56264407"  page_num="" year="" vol="">
-P^HSO N/a/v&apos;&quot;
+P^HSO N/a/v&amp;apos;&amp;quot;
 m 0 5 2005
-^IBRA?!0S&apos;
+^IBRA?!0S&amp;apos;
 MAGAZINE
 VOLUME 110
 </equation>
@@ -801,7 +801,7 @@ Green Pair 02.03.03
 B -- 22%
 28%
 [
-KTv&apos; 6%
+KTv&amp;apos; 6%
 W 3
 7
 6 im .
@@ -1779,7 +1779,7 @@ the authors believe he almost certainly collected the parrot and on his return
 gave the specimen to his brother, Rene Pierre, who described the species.
 </bodyText>
 <equation confidence="0.6386475" page_id="56264450"  page_num="186" year="" vol="">
-* H&lt; *
+* H&amp;lt; *
 NEVER PREVIOUSLY BRED
 </equation>
 <bodyText confidence="0.992217555555555" page_id="56264450"  page_num="186" year="" vol="">

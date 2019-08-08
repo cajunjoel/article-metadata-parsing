@@ -12,7 +12,7 @@ using namespace std;
 void doWork();
 void loadFile(int argc, char* argv[]);
 string findAuthor(const string &hold);
-void print();
+void print(char* argv[]);
 string trim(string str);
 string capitalize(string str);
 void findAndReplaceAll(string & data, string toSearch, string replaceStr);
@@ -50,7 +50,7 @@ main() loads file, prints results, and deletes memory
 int main(int argc, char* argv[]) {
 
 	loadFile(argc, argv);
-	print();                      //printing the results
+	print(argv);                      //printing the results
 
 	delete[] article;             //freeing the allocated memory
 	return 0;
@@ -309,7 +309,7 @@ string findAuthor(const string &hold) {    //to find authors, use reg expression
 	
 print() prints out all of the article metadata. if there are blanks in the volume, date, issue or number, it just copies from the previous entries until one is ecountered	
  */
-void print() {
+void print(char* argv[]) {
 	// cout << "Title" << "\t" <<endl;
     // 	<< "Author" << "\t" << "Date" << "\t" 
 	//     << "Volume" << "\t" << "Number" << "\t" << "Issue" << "\t" 
@@ -337,7 +337,7 @@ void print() {
 		     << article[c].author << "\t" << article[c].date << "\t" 
 			 << article[c].volume << "\t" << article[c].number << "\t" << article[c].issue << "\t" 
 			 << article[c].startPageID << "\t" << article[c].endPageID << "\t" 
-			 << article[c].startPage << "\t" << article[c].endPage <<  endl;
+			 << article[c].startPage << "\t" << article[c].endPage << "\t" << argv[1] << endl;
 
 	}
 
